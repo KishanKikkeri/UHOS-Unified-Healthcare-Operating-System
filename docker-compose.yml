@@ -1,0 +1,54 @@
+version: "3.9"
+
+# One-command local demo stack: Postgres + backend + frontend.
+# Usage:
+#   docker compose up --build
+#   docker compose exec backend python -m seed.demo_seed   # first run only
+# Then open http://localhost:3000
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: uhos
+      POSTGRES_PASSWORD: uhos
+      POSTGRES_DB: uhos
+    ports:
+      - "5432:5432"
+    volumes:
+      - uhos_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uhos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://uhos:uhos@db:5432/uhos
+      PORT: 8000
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+
+volumes:
+  uhos_pg_data:
