@@ -1,0 +1,103 @@
+{
+  "common": {
+    "appName": "UHOS",
+    "districtCommandCenter": "जिला कमांड सेंटर",
+    "district": "मैसूरु जिला",
+    "loading": "लोड हो रहा है…",
+    "submitting": "सबमिट हो रहा है…",
+    "retry": "पुनः प्रयास करें",
+    "close": "बंद करें",
+    "why": "क्यों?",
+    "error": {
+      "generic": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+      "loadFailed": "डेटा लोड करने में विफल।"
+    }
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "doctorWorkspace": "डॉक्टर वर्कस्पेस",
+    "citizenApp": "नागरिक ऐप",
+    "facilities": "सुविधाएं",
+    "alerts": "अलर्ट",
+    "patients": "मरीज़",
+    "analytics": "विश्लेषण"
+  },
+  "language": {
+    "label": "भाषा",
+    "en": "अंग्रेज़ी",
+    "hi": "हिन्दी",
+    "kn": "कन्नड़",
+    "gu": "गुजराती"
+  },
+  "dashboard": {
+    "statOpenAlerts": "खुले अलर्ट",
+    "statCritical": "गंभीर (<2 दिन)",
+    "statFacilities": "निगरानी में सुविधाएं",
+    "statEvents": "दर्ज घटनाएं",
+    "criticalAlerts": "गंभीर अलर्ट",
+    "noOpenAlerts": "कोई खुला अलर्ट नहीं — हर सुविधा सुरक्षा सीमा से ऊपर है।",
+    "facilityHealthScores": "सुविधा स्वास्थ्य स्कोर",
+    "liveEventTimeline": "लाइव इवेंट टाइमलाइन",
+    "operations": "संचालन",
+    "noEventsYet": "अभी तक कोई घटना नहीं।"
+  },
+  "doctorWorkspace": {
+    "newPrescription": "नया नुस्खा",
+    "medicines": "दवाइयां",
+    "submitPrescription": "नुस्खा सबमिट करें",
+    "submitting": "सबमिट हो रहा है…",
+    "prescriptionCreated": "नुस्खा",
+    "createdOutcome": "बनाया गया। प्रति दवा Pulse AI परिणाम:",
+    "newPrescriptionButton": "नया नुस्खा",
+    "errorFallback": "नुस्खा सबमिट करने में विफल।",
+    "loggedInAs": "इस रूप में लॉग इन",
+    "selectDoctor": "एक डॉक्टर चुनें…",
+    "patientLabel": "मरीज़",
+    "searchPatientPlaceholder": "नाम से मरीज़ खोजें…",
+    "noMatchingPatients": "कोई मेल खाता मरीज़ नहीं",
+    "changePatient": "मरीज़ बदलें",
+    "dob": "जन्म तिथि"
+  },
+  "citizenApp": {
+    "title": "नागरिक स्वास्थ्य ऐप",
+    "selectPatientPrompt": "अपॉइंटमेंट, नुस्खे और चिकित्सा इतिहास देखने के लिए एक मरीज़ चुनें।",
+    "loadingHistory": "मरीज़ का इतिहास लोड हो रहा है…",
+    "errorFallback": "मरीज़ का इतिहास लोड करने में विफल।",
+    "tabs": {
+      "dashboard": "डैशबोर्ड",
+      "prescriptions": "नुस्खे",
+      "history": "चिकित्सा इतिहास",
+      "reports": "रिपोर्ट"
+    }
+  },
+  "operations": {
+    "doctorAttendance": "डॉक्टर उपस्थिति",
+    "bedManagement": "बेड प्रबंधन",
+    "patientFootfall": "मरीज़ आगमन",
+    "testAvailability": "जांच उपलब्धता",
+    "present": "उपस्थित",
+    "absent": "अनुपस्थित",
+    "attendancePct": "उपस्थिति %",
+    "occupied": "भरे हुए",
+    "available": "उपलब्ध",
+    "reserved": "आरक्षित",
+    "occupancyPct": "अधिभोग %",
+    "todayPatients": "आज के मरीज़",
+    "weeklyTotal": "साप्ताहिक कुल",
+    "peakHour": "व्यस्त समय",
+    "expectedTomorrow": "कल की अपेक्षा",
+    "availabilityPct": "उपलब्धता %"
+  },
+  "whyDrawer": {
+    "title": "यह सिफारिश क्यों?",
+    "currentStock": "वर्तमान स्टॉक",
+    "avgDailyConsumption": "औसत दैनिक खपत",
+    "daysRemaining": "शेष दिन",
+    "safetyThreshold": "सुरक्षा सीमा",
+    "recommendedTransfer": "अनुशंसित स्थानांतरण",
+    "distance": "दूरी",
+    "selectedFacility": "चयनित सुविधा",
+    "reason": "कारण",
+    "loading": "स्पष्टीकरण लोड हो रहा है…"
+  }
+}

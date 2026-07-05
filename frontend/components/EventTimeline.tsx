@@ -6,15 +6,26 @@ import {
   Pill,
   AlertOctagon,
   Activity,
+  UserCheck,
+  UserX,
+  BedDouble,
+  FlaskConical,
   type LucideIcon,
 } from "lucide-react";
 import type { PulseEvent } from "@/lib/types";
 import { clockTime, relativeTime } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const EVENT_META: Record<string, { label: string; icon: LucideIcon }> = {
   prescription_created: { label: "Prescription Created", icon: FileText },
   medicine_dispensed: { label: "Medicine Dispensed", icon: Pill },
   stock_alert_generated: { label: "Alert Generated", icon: AlertOctagon },
+  // Phase 5 — Healthcare Operations Extensions
+  doctor_checked_in: { label: "Doctor Checked In", icon: UserCheck },
+  doctor_marked_absent: { label: "Doctor Marked Absent", icon: UserX },
+  bed_occupancy_updated: { label: "Bed Occupancy Updated", icon: BedDouble },
+  bed_occupancy_critical: { label: "Bed Occupancy Critical", icon: AlertOctagon },
+  test_availability_changed: { label: "Test Availability Changed", icon: FlaskConical },
 };
 
 function metaFor(eventType: string) {
@@ -27,10 +38,12 @@ function metaFor(eventType: string) {
 }
 
 export default function EventTimeline({ events }: { events: PulseEvent[] }) {
+  const { t } = useLanguage();
+
   if (events.length === 0) {
     return (
       <p className="py-6 text-center text-sm text-ink-faint">
-        No events yet — the timeline fills in as prescriptions are created.
+        {t("dashboard.noEventsYet")}
       </p>
     );
   }

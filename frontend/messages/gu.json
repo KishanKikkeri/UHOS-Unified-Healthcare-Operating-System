@@ -1,0 +1,103 @@
+{
+  "common": {
+    "appName": "UHOS",
+    "districtCommandCenter": "જિલ્લા કમાન્ડ સેન્ટર",
+    "district": "મૈસુરુ જિલ્લો",
+    "loading": "લોડ થઈ રહ્યું છે…",
+    "submitting": "સબમિટ થઈ રહ્યું છે…",
+    "retry": "ફરી પ્રયાસ કરો",
+    "close": "બંધ કરો",
+    "why": "શા માટે?",
+    "error": {
+      "generic": "કંઈક ખોટું થયું. કૃપા કરી ફરી પ્રયાસ કરો.",
+      "loadFailed": "ડેટા લોડ કરવામાં નિષ્ફળ."
+    }
+  },
+  "nav": {
+    "dashboard": "ડેશબોર્ડ",
+    "doctorWorkspace": "ડોક્ટર વર્કસ્પેસ",
+    "citizenApp": "નાગરિક એપ",
+    "facilities": "સુવિધાઓ",
+    "alerts": "ચેતવણીઓ",
+    "patients": "દર્દીઓ",
+    "analytics": "વિશ્લેષણ"
+  },
+  "language": {
+    "label": "ભાષા",
+    "en": "અંગ્રેજી",
+    "hi": "હિન્દી",
+    "kn": "કન્નડ",
+    "gu": "ગુજરાતી"
+  },
+  "dashboard": {
+    "statOpenAlerts": "ખુલ્લી ચેતવણીઓ",
+    "statCritical": "ગંભીર (<2 દિવસ)",
+    "statFacilities": "નિરીક્ષણ હેઠળ સુવિધાઓ",
+    "statEvents": "નોંધાયેલ ઘટનાઓ",
+    "criticalAlerts": "ગંભીર ચેતવણીઓ",
+    "noOpenAlerts": "કોઈ ખુલ્લી ચેતવણી નથી — દરેક સુવિધા સલામતી મર્યાદાથી ઉપર છે.",
+    "facilityHealthScores": "સુવિધા આરોગ્ય સ્કોર",
+    "liveEventTimeline": "લાઈવ ઈવેન્ટ ટાઈમલાઈન",
+    "operations": "કામગીરી",
+    "noEventsYet": "હજુ સુધી કોઈ ઘટના નથી."
+  },
+  "doctorWorkspace": {
+    "newPrescription": "નવું પ્રિસ્ક્રિપ્શન",
+    "medicines": "દવાઓ",
+    "submitPrescription": "પ્રિસ્ક્રિપ્શન સબમિટ કરો",
+    "submitting": "સબમિટ થઈ રહ્યું છે…",
+    "prescriptionCreated": "પ્રિસ્ક્રિપ્શન",
+    "createdOutcome": "બનાવવામાં આવ્યું. દરેક દવા માટે Pulse AI પરિણામ:",
+    "newPrescriptionButton": "નવું પ્રિસ્ક્રિપ્શન",
+    "errorFallback": "પ્રિસ્ક્રિપ્શન સબમિટ કરવામાં નિષ્ફળ.",
+    "loggedInAs": "આ રીતે લૉગ ઇન",
+    "selectDoctor": "ડોક્ટર પસંદ કરો…",
+    "patientLabel": "દર્દી",
+    "searchPatientPlaceholder": "નામથી દર્દી શોધો…",
+    "noMatchingPatients": "કોઈ મેળ ખાતા દર્દીઓ નથી",
+    "changePatient": "દર્દી બદલો",
+    "dob": "જન્મ તારીખ"
+  },
+  "citizenApp": {
+    "title": "નાગરિક આરોગ્ય એપ",
+    "selectPatientPrompt": "એપોઇન્ટમેન્ટ, પ્રિસ્ક્રિપ્શન અને તબીબી ઇતિહાસ જોવા માટે દર્દી પસંદ કરો.",
+    "loadingHistory": "દર્દીનો ઇતિહાસ લોડ થઈ રહ્યો છે…",
+    "errorFallback": "દર્દીનો ઇતિહાસ લોડ કરવામાં નિષ્ફળ.",
+    "tabs": {
+      "dashboard": "ડેશબોર્ડ",
+      "prescriptions": "પ્રિસ્ક્રિપ્શન",
+      "history": "તબીબી ઇતિહાસ",
+      "reports": "અહેવાલો"
+    }
+  },
+  "operations": {
+    "doctorAttendance": "ડોક્ટર હાજરી",
+    "bedManagement": "બેડ મેનેજમેન્ટ",
+    "patientFootfall": "દર્દી આગમન",
+    "testAvailability": "ટેસ્ટ ઉપલબ્ધતા",
+    "present": "હાજર",
+    "absent": "ગેરહાજર",
+    "attendancePct": "હાજરી %",
+    "occupied": "કબજે",
+    "available": "ઉપલબ્ધ",
+    "reserved": "આરક્ષિત",
+    "occupancyPct": "કબજા %",
+    "todayPatients": "આજના દર્દીઓ",
+    "weeklyTotal": "સાપ્તાહિક કુલ",
+    "peakHour": "વ્યસ્ત સમય",
+    "expectedTomorrow": "આવતીકાલની અપેક્ષા",
+    "availabilityPct": "ઉપલબ્ધતા %"
+  },
+  "whyDrawer": {
+    "title": "આ ભલામણ શા માટે?",
+    "currentStock": "વર્તમાન સ્ટોક",
+    "avgDailyConsumption": "સરેરાશ દૈનિક વપરાશ",
+    "daysRemaining": "બાકી દિવસો",
+    "safetyThreshold": "સલામતી મર્યાદા",
+    "recommendedTransfer": "ભલામણ કરેલ ટ્રાન્સફર",
+    "distance": "અંતર",
+    "selectedFacility": "પસંદ કરેલ સુવિધા",
+    "reason": "કારણ",
+    "loading": "સમજૂતી લોડ થઈ રહી છે…"
+  }
+}

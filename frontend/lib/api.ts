@@ -9,6 +9,10 @@ import type {
   PrescriptionCreate,
   PrescriptionResult,
   PatientHistory,
+  DistrictAttendance,
+  DistrictBeds,
+  DistrictFootfall,
+  DistrictTests,
 } from "./types";
 
 const API_BASE =
@@ -86,5 +90,32 @@ export const createPrescription = (payload: PrescriptionCreate) =>
  */
 export const getPatientHistory = (patientId: number) =>
   request<PatientHistory>(`/patients/${patientId}/history`);
+
+/**
+ * Phase 5 — Healthcare Operations Extensions. Each feeds one District
+ * Command Center card; same read-only-unless-noted rule as the rest of
+ * this file.
+ */
+
+/** Doctor Attendance Card (Module 1). */
+export const getDistrictAttendance = () =>
+  request<DistrictAttendance>("/district/attendance");
+
+export const markAttendance = (doctorId: number, status: "present" | "absent") =>
+  request(`/doctors/${doctorId}/attendance`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+
+/** Bed Management Card (Module 2). */
+export const getDistrictBeds = () => request<DistrictBeds>("/district/beds");
+
+/** Patient Footfall Card (Module 3). */
+export const getDistrictFootfall = () =>
+  request<DistrictFootfall>("/district/footfall");
+
+/** Test Availability Card (Module 4). */
+export const getDistrictTests = () => request<DistrictTests>("/district/tests");
 
 export { ApiError, API_BASE };

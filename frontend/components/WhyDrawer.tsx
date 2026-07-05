@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import type { AlertExplanation } from "@/lib/types";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface WhyDrawerProps {
   open: boolean;
@@ -28,6 +29,8 @@ export default function WhyDrawer({
   explanation,
   onClose,
 }: WhyDrawerProps) {
+  const { t } = useLanguage();
+
   return (
     <AnimatePresence>
       {open && (
@@ -51,12 +54,12 @@ export default function WhyDrawer({
             <div className="h-0.5 w-full readout-hairline" />
             <div className="flex items-center justify-between px-5 py-4">
               <h2 className="text-sm font-semibold tracking-wide text-ink">
-                Why this recommendation?
+                {t("whyDrawer.title")}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close"
+                aria-label={t("common.close")}
                 className="rounded-md p-1 text-ink-faint transition-colors hover:text-ink"
               >
                 <X className="h-4 w-4" />
@@ -66,42 +69,42 @@ export default function WhyDrawer({
             <div className="px-5 pb-6">
               {loading && (
                 <p className="py-6 text-sm text-ink-muted">
-                  Loading explanation…
+                  {t("whyDrawer.loading")}
                 </p>
               )}
 
               {!loading && explanation && (
                 <>
                   <Row
-                    label="Current Stock"
+                    label={t("whyDrawer.currentStock")}
                     value={`${explanation.current_stock}`}
                   />
                   <Row
-                    label="Avg Daily Consumption"
+                    label={t("whyDrawer.avgDailyConsumption")}
                     value={`${explanation.avg_daily_consumption}/day`}
                   />
                   <Row
-                    label="Days Remaining"
+                    label={t("whyDrawer.daysRemaining")}
                     value={`${explanation.days_remaining}`}
                   />
                   <Row
-                    label="Safety Threshold"
+                    label={t("whyDrawer.safetyThreshold")}
                     value={`${explanation.safety_threshold_days} days`}
                   />
                   {explanation.recommended_source_phc_name && (
                     <Row
-                      label="Selected Facility"
+                      label={t("whyDrawer.selectedFacility")}
                       value={explanation.recommended_source_phc_name}
                     />
                   )}
                   {explanation.distance_km != null && (
-                    <Row label="Distance" value={`${explanation.distance_km} km`} />
+                    <Row label={t("whyDrawer.distance")} value={`${explanation.distance_km} km`} />
                   )}
 
                   {explanation.reasoning && (
                     <div className="mt-4 rounded-lg border border-panel-border bg-base/60 p-3">
                       <p className="mb-1 text-[11px] uppercase tracking-wide text-ink-faint">
-                        Reason
+                        {t("whyDrawer.reason")}
                       </p>
                       <p className="text-xs leading-relaxed text-ink-muted">
                         {explanation.reasoning}

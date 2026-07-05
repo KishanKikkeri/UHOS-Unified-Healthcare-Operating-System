@@ -9,26 +9,40 @@ import AlertCard from "@/components/AlertCard";
 import FacilityScoreCard from "@/components/FacilityScoreCard";
 import EventTimeline from "@/components/EventTimeline";
 import WhyDrawer from "@/components/WhyDrawer";
+import DoctorAttendanceCard from "@/components/operations/DoctorAttendanceCard";
+import BedManagementCard from "@/components/operations/BedManagementCard";
+import PatientFootfallCard from "@/components/operations/PatientFootfallCard";
+import TestAvailabilityCard from "@/components/operations/TestAvailabilityCard";
 import {
   getDistrictAlerts,
   getDistrictFacilities,
   getRecentEvents,
   getMedicines,
   getAlertExplanation,
+  getDistrictAttendance,
+  getDistrictBeds,
+  getDistrictFootfall,
+  getDistrictTests,
 } from "@/lib/api";
 import { connectDashboardSocket } from "@/lib/ws";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type {
   StockAlert,
   FacilitySummary,
   PulseEvent,
   Medicine,
   AlertExplanation,
+  DistrictAttendance,
+  DistrictBeds,
+  DistrictFootfall,
+  DistrictTests,
 } from "@/lib/types";
 
 const POLL_INTERVAL_MS = 8000;
 const MAX_TIMELINE_EVENTS = 30;
 
 export default function DashboardPage() {
+  const { t } = useLanguage();
   const [alerts, setAlerts] = useState<StockAlert[]>([]);
   const [facilities, setFacilities] = useState<FacilitySummary[]>([]);
   const [events, setEvents] = useState<PulseEvent[]>([]);
@@ -41,15 +55,30 @@ export default function DashboardPage() {
   const [explanation, setExplanation] = useState<AlertExplanation | null>(null);
   const [explanationLoading, setExplanationLoading] = useState(false);
 
+  // Phase 5 — Healthcare Operations Extensions: same REST polling pattern
+  // as alerts/facilities below, one state slot per District Command Center card.
+  const [attendance, setAttendance] = useState<DistrictAttendance | null>(null);
+  const [beds, setBeds] = useState<DistrictBeds | null>(null);
+  const [footfall, setFootfall] = useState<DistrictFootfall | null>(null);
+  const [tests, setTests] = useState<DistrictTests | null>(null);
+
   // Alerts + Facility Scores stay on normal REST polling per the review note.
   const refresh = useCallback(async () => {
     try {
-      const [a, f] = await Promise.all([
+      const [a, f, att, b, ff, tst] = await Promise.all([
         getDistrictAlerts(),
         getDistrictFacilities(),
+        getDistrictAttendance(),
+        getDistrictBeds(),
+        getDistrictFootfall(),
+        getDistrictTests(),
       ]);
       setAlerts(a);
       setFacilities(f);
+      setAttendance(att);
+      setBeds(b);
+      setFootfall(ff);
+      setTests(tst);
     } catch {
       // alert/facility polling failure doesn't affect the live indicator —
       // that's owned by the WebSocket now.
@@ -110,7 +139,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen flex-col">
-      <Topbar district="Mysuru District" live={live} />
+      <Topbar district={t("common.district")} live={live} />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
@@ -120,24 +149,24 @@ export default function DashboardPage() {
             {/* Stat strip */}
             <div className="flex gap-3">
               <StatCard
-                label="Open Alerts"
+                label={t("dashboard.statOpenAlerts")}
                 value={alerts.length}
                 icon={AlertTriangle}
                 tone={alerts.length > 0 ? "warning" : "default"}
               />
               <StatCard
-                label="Critical (<2 days)"
+                label={t("dashboard.statCritical")}
                 value={criticalCount}
                 icon={AlertTriangle}
                 tone={criticalCount > 0 ? "critical" : "default"}
               />
               <StatCard
-                label="Facilities Monitored"
+                label={t("dashboard.statFacilities")}
                 value={facilities.length}
                 icon={Building2}
               />
               <StatCard
-                label="Events Logged"
+                label={t("dashboard.statEvents")}
                 value={events.length}
                 icon={Activity}
               />
@@ -146,11 +175,11 @@ export default function DashboardPage() {
             {/* Critical Alerts */}
             <section>
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">
-                Critical Alerts
+                {t("dashboard.criticalAlerts")}
               </h2>
               {alerts.length === 0 ? (
                 <div className="rounded-xl border border-panel-border bg-panel px-4 py-6 text-center text-sm text-ink-muted">
-                  No open alerts — every facility is above its safety threshold.
+                  {t("dashboard.noOpenAlerts")}
                 </div>
               ) : (
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -176,7 +205,7 @@ export default function DashboardPage() {
             <div className="grid gap-6 lg:grid-cols-2">
               <section>
                 <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">
-                  Facility Health Scores
+                  {t("dashboard.facilityHealthScores")}
                 </h2>
                 <div className="flex flex-col gap-2">
                   {facilities.map((f) => (
@@ -187,13 +216,26 @@ export default function DashboardPage() {
 
               <section>
                 <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">
-                  Live Event Timeline
+                  {t("dashboard.liveEventTimeline")}
                 </h2>
                 <div className="rounded-xl border border-panel-border bg-panel p-4">
                   <EventTimeline events={events} />
                 </div>
               </section>
             </div>
+
+            {/* Phase 5 — Healthcare Operations Extensions */}
+            <section>
+              <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-faint">
+                {t("dashboard.operations")}
+              </h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <DoctorAttendanceCard data={attendance} facilityName={facilityName} />
+                <BedManagementCard data={beds} facilityName={facilityName} />
+                <PatientFootfallCard data={footfall} />
+                <TestAvailabilityCard data={tests} facilityName={facilityName} />
+              </div>
+            </section>
           </div>
         </main>
       </div>

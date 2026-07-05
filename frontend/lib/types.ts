@@ -156,3 +156,95 @@ export interface PatientHistory {
 }
 
 export type CitizenTab = "dashboard" | "prescriptions" | "history" | "reports";
+
+/**
+ * Phase 5 (Healthcare Operations Extensions) types. These mirror
+ * `routes_operations.py` exactly — same rule as above, the frontend only
+ * renders what the backend returns.
+ */
+
+export interface AttendanceDoctor {
+  doctor_id: number;
+  doctor_name: string;
+  facility_id: number;
+  status: "present" | "absent";
+  check_in_time: string | null;
+}
+
+export interface FacilityAttendance {
+  facility_id: number;
+  date: string;
+  present: number;
+  absent: number;
+  total: number;
+  attendance_pct: number;
+  is_alert: boolean;
+  doctors: AttendanceDoctor[];
+}
+
+export interface DistrictAttendance {
+  date: string;
+  present: number;
+  absent: number;
+  total: number;
+  attendance_pct: number;
+  facilities: FacilityAttendance[];
+}
+
+export interface FacilityBeds {
+  facility_id: number;
+  total: number;
+  occupied: number;
+  reserved: number;
+  available: number;
+  occupancy_pct: number;
+  is_alert: boolean;
+  calculation: string;
+}
+
+export interface DistrictBeds {
+  total: number;
+  occupied: number;
+  reserved: number;
+  available: number;
+  occupancy_pct: number;
+  facilities: FacilityBeds[];
+}
+
+export interface FacilityFootfall {
+  facility_id: number | null;
+  today_patients: number;
+  weekly_total: number;
+  peak_hour: string | null;
+  expected_tomorrow: number;
+  calculation: string;
+}
+
+export interface DistrictFootfall extends FacilityFootfall {
+  facilities: FacilityFootfall[];
+}
+
+export interface TestAlternative {
+  facility_id: number;
+  facility_name: string;
+  distance_km: number;
+}
+
+export interface TestAlert {
+  test_name: string;
+  alternative_facility: TestAlternative | null;
+  reasoning: string;
+}
+
+export interface FacilityTests {
+  facility_id: number;
+  available_tests: string[];
+  unavailable_tests: string[];
+  availability_pct: number;
+  alerts: TestAlert[];
+}
+
+export interface DistrictTests {
+  availability_pct: number;
+  facilities: FacilityTests[];
+}

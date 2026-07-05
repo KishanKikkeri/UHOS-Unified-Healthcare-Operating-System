@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
 import { getPatients } from "@/lib/api";
 import type { Patient } from "@/lib/types";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface PatientPickerProps {
   value: Patient | null;
@@ -11,6 +12,7 @@ interface PatientPickerProps {
 }
 
 export default function PatientPicker({ value, onChange }: PatientPickerProps) {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Patient[]>([]);
   const [open, setOpen] = useState(false);
@@ -46,13 +48,13 @@ export default function PatientPicker({ value, onChange }: PatientPickerProps) {
     return (
       <div>
         <label className="mb-1.5 block text-[11px] uppercase tracking-wide text-ink-faint">
-          Patient
+          {t("doctorWorkspace.patientLabel")}
         </label>
         <div className="flex items-center justify-between rounded-lg border border-panel-border bg-panel px-3 py-2">
           <div>
             <p className="text-sm text-ink">{value.name}</p>
             {value.dob && (
-              <p className="text-xs text-ink-faint">DOB {value.dob}</p>
+              <p className="text-xs text-ink-faint">{t("doctorWorkspace.dob")} {value.dob}</p>
             )}
           </div>
           <button
@@ -62,7 +64,7 @@ export default function PatientPicker({ value, onChange }: PatientPickerProps) {
               setQuery("");
             }}
             className="rounded-md p-1 text-ink-faint transition-colors hover:text-ink"
-            aria-label="Change patient"
+            aria-label={t("doctorWorkspace.changePatient")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -74,7 +76,7 @@ export default function PatientPicker({ value, onChange }: PatientPickerProps) {
   return (
     <div ref={containerRef} className="relative">
       <label className="mb-1.5 block text-[11px] uppercase tracking-wide text-ink-faint">
-        Patient
+        {t("doctorWorkspace.patientLabel")}
       </label>
       <div className="relative">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-faint" />
@@ -83,7 +85,7 @@ export default function PatientPicker({ value, onChange }: PatientPickerProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setOpen(true)}
-          placeholder="Search patient by name…"
+          placeholder={t("doctorWorkspace.searchPatientPlaceholder")}
           className="w-full rounded-lg border border-panel-border bg-panel py-2 pl-9 pr-3 text-sm text-ink outline-none transition-colors focus:border-accent/50"
         />
       </div>
@@ -111,7 +113,7 @@ export default function PatientPicker({ value, onChange }: PatientPickerProps) {
       )}
       {open && results.length === 0 && (
         <div className="absolute z-10 mt-1.5 w-full rounded-lg border border-panel-border bg-panel px-3 py-2 text-xs text-ink-faint shadow-panel">
-          No matching patients
+          {t("doctorWorkspace.noMatchingPatients")}
         </div>
       )}
     </div>

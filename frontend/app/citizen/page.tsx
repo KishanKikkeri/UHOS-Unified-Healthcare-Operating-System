@@ -10,22 +10,24 @@ import PrescriptionsTab from "@/components/citizen/PrescriptionsTab";
 import HistoryTab from "@/components/citizen/HistoryTab";
 import ReportsTab from "@/components/citizen/ReportsTab";
 import { getPatientHistory, ApiError } from "@/lib/api";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Patient, PatientHistory, CitizenTab } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const TABS: { key: CitizenTab; label: string; icon: typeof LayoutGrid }[] = [
-  { key: "dashboard", label: "Dashboard", icon: LayoutGrid },
-  { key: "prescriptions", label: "Prescriptions", icon: FileText },
-  { key: "history", label: "Medical History", icon: Activity },
-  { key: "reports", label: "Reports", icon: Files },
-];
-
 export default function CitizenAppPage() {
+  const { t } = useLanguage();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [history, setHistory] = useState<PatientHistory | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<CitizenTab>("dashboard");
+
+  const TABS: { key: CitizenTab; label: string; icon: typeof LayoutGrid }[] = [
+    { key: "dashboard", label: t("citizenApp.tabs.dashboard"), icon: LayoutGrid },
+    { key: "prescriptions", label: t("citizenApp.tabs.prescriptions"), icon: FileText },
+    { key: "history", label: t("citizenApp.tabs.history"), icon: Activity },
+    { key: "reports", label: t("citizenApp.tabs.reports"), icon: Files },
+  ];
 
   useEffect(() => {
     if (!patient) {
@@ -37,17 +39,17 @@ export default function CitizenAppPage() {
     getPatientHistory(patient.id)
       .then(setHistory)
       .catch((e) =>
-        setError(e instanceof ApiError ? e.message : "Failed to load patient history.")
+        setError(e instanceof ApiError ? e.message : t("citizenApp.errorFallback"))
       )
       .finally(() => setLoading(false));
-  }, [patient]);
+  }, [patient, t]);
 
   return (
     <div className="flex h-screen flex-col">
       <Topbar
-        district="Mysuru District"
+        district={t("common.district")}
         live={false}
-        section="Citizen Health App"
+        section={t("citizenApp.title")}
         showPulse={false}
       />
 
@@ -59,7 +61,7 @@ export default function CitizenAppPage() {
             <div className="flex items-center gap-2 text-ink">
               <HeartPulse className="h-5 w-5 text-accent" strokeWidth={1.75} />
               <h1 className="text-xs font-semibold uppercase tracking-wide text-ink-faint">
-                Citizen Health App
+                {t("citizenApp.title")}
               </h1>
             </div>
 
@@ -69,8 +71,7 @@ export default function CitizenAppPage() {
 
             {!patient && (
               <p className="py-8 text-center text-sm text-ink-faint">
-                Select a patient to view their appointments, prescriptions,
-                and medical history.
+                {t("citizenApp.selectPatientPrompt")}
               </p>
             )}
 
@@ -97,7 +98,7 @@ export default function CitizenAppPage() {
 
                 {loading && (
                   <p className="py-8 text-center text-sm text-ink-muted">
-                    Loading patient history…
+                    {t("citizenApp.loadingHistory")}
                   </p>
                 )}
 

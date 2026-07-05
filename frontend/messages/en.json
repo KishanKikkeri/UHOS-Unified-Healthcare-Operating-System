@@ -1,0 +1,103 @@
+{
+  "common": {
+    "appName": "UHOS",
+    "districtCommandCenter": "District Command Center",
+    "district": "Mysuru District",
+    "loading": "Loading…",
+    "submitting": "Submitting…",
+    "retry": "Retry",
+    "close": "Close",
+    "why": "Why?",
+    "error": {
+      "generic": "Something went wrong. Please try again.",
+      "loadFailed": "Failed to load data."
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "doctorWorkspace": "Doctor Workspace",
+    "citizenApp": "Citizen App",
+    "facilities": "Facilities",
+    "alerts": "Alerts",
+    "patients": "Patients",
+    "analytics": "Analytics"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "hi": "Hindi",
+    "kn": "Kannada",
+    "gu": "Gujarati"
+  },
+  "dashboard": {
+    "statOpenAlerts": "Open Alerts",
+    "statCritical": "Critical (<2 days)",
+    "statFacilities": "Facilities Monitored",
+    "statEvents": "Events Logged",
+    "criticalAlerts": "Critical Alerts",
+    "noOpenAlerts": "No open alerts — every facility is above its safety threshold.",
+    "facilityHealthScores": "Facility Health Scores",
+    "liveEventTimeline": "Live Event Timeline",
+    "operations": "Operations",
+    "noEventsYet": "No events yet."
+  },
+  "doctorWorkspace": {
+    "newPrescription": "New Prescription",
+    "medicines": "Medicines",
+    "submitPrescription": "Submit Prescription",
+    "submitting": "Submitting…",
+    "prescriptionCreated": "Prescription",
+    "createdOutcome": "created. Pulse AI outcome per medicine:",
+    "newPrescriptionButton": "New Prescription",
+    "errorFallback": "Failed to submit prescription.",
+    "loggedInAs": "Logged in as",
+    "selectDoctor": "Select a doctor…",
+    "patientLabel": "Patient",
+    "searchPatientPlaceholder": "Search patient by name…",
+    "noMatchingPatients": "No matching patients",
+    "changePatient": "Change patient",
+    "dob": "DOB"
+  },
+  "citizenApp": {
+    "title": "Citizen Health App",
+    "selectPatientPrompt": "Select a patient to view their appointments, prescriptions, and medical history.",
+    "loadingHistory": "Loading patient history…",
+    "errorFallback": "Failed to load patient history.",
+    "tabs": {
+      "dashboard": "Dashboard",
+      "prescriptions": "Prescriptions",
+      "history": "Medical History",
+      "reports": "Reports"
+    }
+  },
+  "operations": {
+    "doctorAttendance": "Doctor Attendance",
+    "bedManagement": "Bed Management",
+    "patientFootfall": "Patient Footfall",
+    "testAvailability": "Test Availability",
+    "present": "Present",
+    "absent": "Absent",
+    "attendancePct": "Attendance %",
+    "occupied": "Occupied",
+    "available": "Available",
+    "reserved": "Reserved",
+    "occupancyPct": "Occupancy %",
+    "todayPatients": "Today's Patients",
+    "weeklyTotal": "Weekly Total",
+    "peakHour": "Peak Hour",
+    "expectedTomorrow": "Expected Tomorrow",
+    "availabilityPct": "Availability %"
+  },
+  "whyDrawer": {
+    "title": "Why this recommendation?",
+    "currentStock": "Current Stock",
+    "avgDailyConsumption": "Avg. Daily Consumption",
+    "daysRemaining": "Days Remaining",
+    "safetyThreshold": "Safety Threshold",
+    "recommendedTransfer": "Recommended Transfer",
+    "distance": "Distance",
+    "selectedFacility": "Selected Facility",
+    "reason": "Reason",
+    "loading": "Loading explanation…"
+  }
+}

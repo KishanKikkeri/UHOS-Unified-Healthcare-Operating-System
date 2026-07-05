@@ -13,9 +13,11 @@ import PrescriptionItemsForm, {
 import OutcomeCard from "@/components/doctor/OutcomeCard";
 import OutcomeWhyDrawer from "@/components/doctor/OutcomeWhyDrawer";
 import { createPrescription, ApiError } from "@/lib/api";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Doctor, Patient, PrescriptionResult, ItemOutcome } from "@/lib/types";
 
 export default function DoctorWorkspacePage() {
+  const { t } = useLanguage();
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
   const [items, setItems] = useState<DraftItem[]>([newDraftItem()]);
@@ -48,7 +50,7 @@ export default function DoctorWorkspacePage() {
       setResult(res);
     } catch (e) {
       setError(
-        e instanceof ApiError ? e.message : "Failed to submit prescription."
+        e instanceof ApiError ? e.message : t("doctorWorkspace.errorFallback")
       );
     } finally {
       setSubmitting(false);
@@ -65,9 +67,9 @@ export default function DoctorWorkspacePage() {
   return (
     <div className="flex h-screen flex-col">
       <Topbar
-        district="Mysuru District"
+        district={t("common.district")}
         live={false}
-        section="Doctor Workspace"
+        section={t("nav.doctorWorkspace")}
         showPulse={false}
       />
 
@@ -79,7 +81,7 @@ export default function DoctorWorkspacePage() {
             <div className="flex items-center gap-2 text-ink">
               <Stethoscope className="h-5 w-5 text-accent" strokeWidth={1.75} />
               <h1 className="text-xs font-semibold uppercase tracking-wide text-ink-faint">
-                New Prescription
+                {t("doctorWorkspace.newPrescription")}
               </h1>
             </div>
 
@@ -90,7 +92,7 @@ export default function DoctorWorkspacePage() {
 
                 <div>
                   <label className="mb-1.5 block text-[11px] uppercase tracking-wide text-ink-faint">
-                    Medicines
+                    {t("doctorWorkspace.medicines")}
                   </label>
                   <PrescriptionItemsForm items={items} onChange={setItems} />
                 </div>
@@ -108,7 +110,7 @@ export default function DoctorWorkspacePage() {
                   className="flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-base transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Send className="h-4 w-4" strokeWidth={2} />
-                  {submitting ? "Submitting…" : "Submit Prescription"}
+                  {submitting ? t("doctorWorkspace.submitting") : t("doctorWorkspace.submitPrescription")}
                 </button>
               </div>
             )}
@@ -116,11 +118,11 @@ export default function DoctorWorkspacePage() {
             {result && (
               <div className="flex flex-col gap-4">
                 <div className="rounded-lg border border-panel-border bg-panel px-4 py-3 text-sm text-ink-muted">
-                  Prescription{" "}
+                  {t("doctorWorkspace.prescriptionCreated")}{" "}
                   <span className="font-mono tabular text-ink">
                     #{result.prescription_id}
                   </span>{" "}
-                  created. Pulse AI outcome per medicine:
+                  {t("doctorWorkspace.createdOutcome")}
                 </div>
 
                 <div className="flex flex-col gap-3">
@@ -138,7 +140,7 @@ export default function DoctorWorkspacePage() {
                   onClick={startNewPrescription}
                   className="self-start rounded-md border border-panel-border px-3 py-1.5 text-xs font-medium text-ink-muted transition-colors hover:border-accent/50 hover:text-accent"
                 >
-                  New Prescription
+                  {t("doctorWorkspace.newPrescriptionButton")}
                 </button>
               </div>
             )}

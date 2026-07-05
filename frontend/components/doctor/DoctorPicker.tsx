@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { getDoctors } from "@/lib/api";
 import type { Doctor } from "@/lib/types";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface DoctorPickerProps {
   value: Doctor | null;
@@ -12,6 +13,7 @@ interface DoctorPickerProps {
 
 export default function DoctorPicker({ value, onChange }: DoctorPickerProps) {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const { t } = useLanguage();
 
   useEffect(() => {
     getDoctors()
@@ -22,7 +24,7 @@ export default function DoctorPicker({ value, onChange }: DoctorPickerProps) {
   return (
     <div>
       <label className="mb-1.5 block text-[11px] uppercase tracking-wide text-ink-faint">
-        Logged in as
+        {t("doctorWorkspace.loggedInAs")}
       </label>
       <div className="relative">
         <select
@@ -35,7 +37,7 @@ export default function DoctorPicker({ value, onChange }: DoctorPickerProps) {
           }}
         >
           <option value="" disabled>
-            Select a doctor…
+            {t("doctorWorkspace.selectDoctor")}
           </option>
           {doctors.map((d) => (
             <option key={d.id} value={d.id} disabled={d.status !== "active"}>

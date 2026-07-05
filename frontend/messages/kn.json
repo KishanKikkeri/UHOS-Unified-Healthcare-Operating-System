@@ -1,0 +1,103 @@
+{
+  "common": {
+    "appName": "UHOS",
+    "districtCommandCenter": "ಜಿಲ್ಲಾ ಕಮಾಂಡ್ ಸೆಂಟರ್",
+    "district": "ಮೈಸೂರು ಜಿಲ್ಲೆ",
+    "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ…",
+    "submitting": "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ…",
+    "retry": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+    "close": "ಮುಚ್ಚಿ",
+    "why": "ಏಕೆ?",
+    "error": {
+      "generic": "ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+      "loadFailed": "ಡೇಟಾ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."
+    }
+  },
+  "nav": {
+    "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "doctorWorkspace": "ವೈದ್ಯರ ಕಾರ್ಯಸ್ಥಳ",
+    "citizenApp": "ನಾಗರಿಕ ಅಪ್ಲಿಕೇಶನ್",
+    "facilities": "ಸೌಲಭ್ಯಗಳು",
+    "alerts": "ಎಚ್ಚರಿಕೆಗಳು",
+    "patients": "ರೋಗಿಗಳು",
+    "analytics": "ವಿಶ್ಲೇಷಣೆ"
+  },
+  "language": {
+    "label": "ಭಾಷೆ",
+    "en": "ಇಂಗ್ಲಿಷ್",
+    "hi": "ಹಿಂದಿ",
+    "kn": "ಕನ್ನಡ",
+    "gu": "ಗುಜರಾತಿ"
+  },
+  "dashboard": {
+    "statOpenAlerts": "ತೆರೆದ ಎಚ್ಚರಿಕೆಗಳು",
+    "statCritical": "ತೀವ್ರ (<2 ದಿನಗಳು)",
+    "statFacilities": "ಮೇಲ್ವಿಚಾರಣೆಯಲ್ಲಿರುವ ಸೌಲಭ್ಯಗಳು",
+    "statEvents": "ದಾಖಲಾದ ಘಟನೆಗಳು",
+    "criticalAlerts": "ತೀವ್ರ ಎಚ್ಚರಿಕೆಗಳು",
+    "noOpenAlerts": "ತೆರೆದ ಎಚ್ಚರಿಕೆಗಳಿಲ್ಲ — ಪ್ರತಿ ಸೌಲಭ್ಯವೂ ಸುರಕ್ಷತಾ ಮಿತಿಗಿಂತ ಮೇಲಿದೆ.",
+    "facilityHealthScores": "ಸೌಲಭ್ಯ ಆರೋಗ್ಯ ಅಂಕಗಳು",
+    "liveEventTimeline": "ಲೈವ್ ಈವೆಂಟ್ ಟೈಮ್‌ಲೈನ್",
+    "operations": "ಕಾರ್ಯಾಚರಣೆಗಳು",
+    "noEventsYet": "ಇನ್ನೂ ಯಾವುದೇ ಘಟನೆಗಳಿಲ್ಲ."
+  },
+  "doctorWorkspace": {
+    "newPrescription": "ಹೊಸ ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್",
+    "medicines": "ಔಷಧಿಗಳು",
+    "submitPrescription": "ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್ ಸಲ್ಲಿಸಿ",
+    "submitting": "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ…",
+    "prescriptionCreated": "ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್",
+    "createdOutcome": "ರಚಿಸಲಾಗಿದೆ. ಪ್ರತಿ ಔಷಧಿಗೆ Pulse AI ಫಲಿತಾಂಶ:",
+    "newPrescriptionButton": "ಹೊಸ ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್",
+    "errorFallback": "ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್ ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ.",
+    "loggedInAs": "ಇವರಾಗಿ ಲಾಗ್ ಇನ್ ಆಗಿದ್ದೀರಿ",
+    "selectDoctor": "ವೈದ್ಯರನ್ನು ಆಯ್ಕೆಮಾಡಿ…",
+    "patientLabel": "ರೋಗಿ",
+    "searchPatientPlaceholder": "ಹೆಸರಿನ ಮೂಲಕ ರೋಗಿಯನ್ನು ಹುಡುಕಿ…",
+    "noMatchingPatients": "ಹೊಂದಾಣಿಕೆಯಾಗುವ ರೋಗಿಗಳಿಲ್ಲ",
+    "changePatient": "ರೋಗಿಯನ್ನು ಬದಲಾಯಿಸಿ",
+    "dob": "ಹುಟ್ಟಿದ ದಿನಾಂಕ"
+  },
+  "citizenApp": {
+    "title": "ನಾಗರಿಕ ಆರೋಗ್ಯ ಅಪ್ಲಿಕೇಶನ್",
+    "selectPatientPrompt": "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು, ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್‌ಗಳು ಮತ್ತು ವೈದ್ಯಕೀಯ ಇತಿಹಾಸವನ್ನು ವೀಕ್ಷಿಸಲು ರೋಗಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+    "loadingHistory": "ರೋಗಿಯ ಇತಿಹಾಸ ಲೋಡ್ ಆಗುತ್ತಿದೆ…",
+    "errorFallback": "ರೋಗಿಯ ಇತಿಹಾಸ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ.",
+    "tabs": {
+      "dashboard": "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+      "prescriptions": "ಪ್ರಿಸ್ಕ್ರಿಪ್ಷನ್‌ಗಳು",
+      "history": "ವೈದ್ಯಕೀಯ ಇತಿಹಾಸ",
+      "reports": "ವರದಿಗಳು"
+    }
+  },
+  "operations": {
+    "doctorAttendance": "ವೈದ್ಯರ ಹಾಜರಾತಿ",
+    "bedManagement": "ಹಾಸಿಗೆ ನಿರ್ವಹಣೆ",
+    "patientFootfall": "ರೋಗಿಗಳ ಆಗಮನ",
+    "testAvailability": "ಪರೀಕ್ಷೆ ಲಭ್ಯತೆ",
+    "present": "ಹಾಜರಿ",
+    "absent": "ಗೈರುಹಾಜರಿ",
+    "attendancePct": "ಹಾಜರಾತಿ %",
+    "occupied": "ಆಕ್ರಮಿತ",
+    "available": "ಲಭ್ಯವಿದೆ",
+    "reserved": "ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ",
+    "occupancyPct": "ಆಕ್ರಮಣ %",
+    "todayPatients": "ಇಂದಿನ ರೋಗಿಗಳು",
+    "weeklyTotal": "ವಾರದ ಒಟ್ಟು",
+    "peakHour": "ಗರಿಷ್ಠ ಸಮಯ",
+    "expectedTomorrow": "ನಾಳಿನ ನಿರೀಕ್ಷೆ",
+    "availabilityPct": "ಲಭ್ಯತೆ %"
+  },
+  "whyDrawer": {
+    "title": "ಈ ಶಿಫಾರಸು ಏಕೆ?",
+    "currentStock": "ಪ್ರಸ್ತುತ ಸ್ಟಾಕ್",
+    "avgDailyConsumption": "ಸರಾಸರಿ ದೈನಂದಿನ ಬಳಕೆ",
+    "daysRemaining": "ಉಳಿದ ದಿನಗಳು",
+    "safetyThreshold": "ಸುರಕ್ಷತಾ ಮಿತಿ",
+    "recommendedTransfer": "ಶಿಫಾರಸು ಮಾಡಿದ ವರ್ಗಾವಣೆ",
+    "distance": "ದೂರ",
+    "selectedFacility": "ಆಯ್ಕೆಮಾಡಿದ ಸೌಲಭ್ಯ",
+    "reason": "ಕಾರಣ",
+    "loading": "ವಿವರಣೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ…"
+  }
+}
