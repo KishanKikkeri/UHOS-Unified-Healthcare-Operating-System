@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  border-color: theme("colors.panel.border");
+}
+
+html,
+body {
+  background-color: theme("colors.base.DEFAULT");
+  color: theme("colors.ink.DEFAULT");
+}
+
+body {
+  font-feature-settings: "cv11", "ss01";
+}
+
+.font-mono,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle scanline texture reserved for panel headers only — restraint per brief */
+.readout-hairline {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    theme("colors.accent.DEFAULT") 20%,
+    theme("colors.accent.DEFAULT") 80%,
+    transparent
+  );
+  opacity: 0.35;
+}
+
+::selection {
+  background: theme("colors.accent.soft");
+  color: theme("colors.ink.DEFAULT");
+}
+
+/* Visible keyboard focus — quality floor, not decoration */
+:focus-visible {
+  outline: 2px solid theme("colors.accent.DEFAULT");
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
