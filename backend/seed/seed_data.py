@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from app.db.database import SessionLocal, Base, engine
 from app.models.models import (
     PHC, Doctor, Patient, Medicine, Inventory, Prescription,
-    PrescriptionItem, DispensingEvent
+    PrescriptionItem, DispensingEvent, DoctorAttendance, Bed, FacilityTest
 )
 
 Base.metadata.create_all(bind=engine)
@@ -24,6 +24,7 @@ db = SessionLocal()
 
 # Wipe existing data for a clean reseed
 for model in [DispensingEvent, PrescriptionItem, Prescription, Inventory,
+              DoctorAttendance, Bed, FacilityTest,
               Doctor, Patient, Medicine, PHC]:
     db.query(model).delete()
 db.commit()
@@ -105,5 +106,59 @@ db.commit()
 
 print("Seed complete: 3 facilities, 4 doctors, 4 medicines, 3 patients, 7 days of dispensing history.")
 print(f"PHC A id={phc_a.id}, CHC B id={phc_b.id}, PHC C id={phc_c.id}")
+
+# --- Phase 5: Appointments over the last 7 days + today, so Patient
+# Footfall (Module 3) has real weekly/peak-hour/today data on demo start. ---
+from app.models.models import Appointment  # noqa: E402
+
+appt_hours = [9, 9, 10, 11, 11, 14, 15]  # deliberately clustered so a peak hour emerges
+for day_offset in range(7, -1, -1):  # 7 days ago through today
+    day = datetime.utcnow() - timedelta(days=day_offset)
+    for i, hour in enumerate(appt_hours[: random.randint(3, len(appt_hours))]):
+        patient = patients[i % len(patients)]
+        doctor = doctors[i % len(doctors)]
+        db.add(Appointment(
+            patient_id=patient.id,
+            doctor_id=doctor.id,
+            phc_id=doctor.phc_id,
+            scheduled_at=day.replace(hour=hour, minute=0, second=0, microsecond=0),
+            status="completed" if day_offset > 0 else "booked",
+        ))
+db.commit()
+
+# --- Phase 5, Module 1: today's attendance mirrors each doctor's seeded status. ---
+today = datetime.utcnow().strftime("%Y-%m-%d")
+for doc in doctors:
+    status = "present" if doc.status == "active" else "absent"
+    db.add(DoctorAttendance(
+        doctor_id=doc.id, date=today, status=status,
+        check_in_time=datetime.utcnow() if status == "present" else None,
+    ))
+db.commit()
+
+# --- Phase 5, Module 2: bed counts, deliberately uneven so one facility
+# crosses the 90% occupancy alert threshold for the demo. ---
+bed_plan = {
+    phc_a.id: {"total": 40, "occupied": 38, "reserved": 1},   # >90% -> alert
+    phc_b.id: {"total": 60, "occupied": 30, "reserved": 5},
+    phc_c.id: {"total": 25, "occupied": 10, "reserved": 2},
+}
+for phc_id, counts in bed_plan.items():
+    db.add(Bed(facility_id=phc_id, **counts))
+db.commit()
+
+# --- Phase 5, Module 4: test availability, with one common test missing at
+# PHC A so the "alternative facility" recommendation has something to show. ---
+test_plan = {
+    phc_a.id: {"CBC": True, "Blood Sugar": True, "ECG": False, "X-Ray": True, "Ultrasound": False},
+    phc_b.id: {"CBC": True, "Blood Sugar": True, "ECG": True, "X-Ray": True, "Ultrasound": True},
+    phc_c.id: {"CBC": True, "Blood Sugar": True, "ECG": True, "X-Ray": False, "Ultrasound": False},
+}
+for phc_id, tests in test_plan.items():
+    for test_name, available in tests.items():
+        db.add(FacilityTest(facility_id=phc_id, test_name=test_name, available=1 if available else 0))
+db.commit()
+
+print("Phase 5 seed complete: appointments, doctor attendance, beds, and test availability seeded.")
 
 db.close()

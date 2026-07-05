@@ -104,3 +104,53 @@ def on_medicine_dispensed(db: Session, phc_id: int, medicine_id: int, payload: d
     record_event(db, "medicine_dispensed", payload)
     recompute_stock_alert(db, phc_id, medicine_id)
     recompute_facility_score(db, phc_id)
+
+
+# ---------------------------------------------------------------------------
+# Phase 5 — Healthcare Operations Extensions
+#
+# Same pattern as on_medicine_dispensed above: the route writes the raw
+# state (attendance / bed counts / test flag) first, then hands off to the
+# Event Engine to log the event and, where the handover doc's chain diagram
+# calls for it, recompute the one derived table that depends on it
+# (FacilityScore, via the exact same recompute_facility_score already used
+# by the medicine-dispensing chain -- no new scoring logic).
+# ---------------------------------------------------------------------------
+
+
+def on_attendance_recorded(db: Session, doctor_id: int, phc_id: int, status: str):
+    """
+    Attendance Recorded -> Attendance Event -> Facility Score Recomputed ->
+    Dashboard Updated (Phase 5, Module 1 chain diagram).
+    """
+    event_type = "doctor_checked_in" if status == "present" else "doctor_marked_absent"
+    record_event(db, event_type, {"doctor_id": doctor_id, "phc_id": phc_id, "status": status})
+    recompute_facility_score(db, phc_id)
+
+
+def on_bed_occupancy_updated(db: Session, phc_id: int, summary: dict):
+    """
+    Bed Occupancy Updated -> Event -> Dashboard update, plus the Pulse AI
+    rule from the handover doc: occupancy > 90% -> alert event.
+    """
+    record_event(db, "bed_occupancy_updated", {"phc_id": phc_id, **summary})
+    if summary.get("is_alert"):
+        record_event(db, "bed_occupancy_critical", {"phc_id": phc_id, "occupancy_pct": summary["occupancy_pct"]})
+
+
+def on_test_availability_changed(db: Session, phc_id: int, test_name: str, available: bool, alert: dict = None):
+    """
+    Test availability toggled -> Event; if it just became unavailable and
+    Pulse AI found an alternative facility, that's logged as an
+    AIDecisionLog too (same reproducibility rule as forecast/redistribution).
+    """
+    record_event(
+        db, "test_availability_changed",
+        {"phc_id": phc_id, "test_name": test_name, "available": available},
+    )
+    if not available and alert:
+        log_ai_decision(
+            db, "test_availability",
+            {"phc_id": phc_id, "test_name": test_name},
+            alert,
+        )

@@ -170,3 +170,58 @@ class Event(Base):
     event_type = Column(String, nullable=False)  # e.g. "medicine_dispensed"
     payload = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+# ---------------------------------------------------------------------------
+# Phase 5 — Healthcare Operations Extensions
+#
+# Four lightweight operational tables, same style as the rest of this file:
+# plain columns, no new frameworks, no derived/business-logic writes from API
+# handlers. Attendance, beds, and test availability are themselves raw state
+# (not derived), so routes may write them directly -- same pattern as
+# Doctor.status, Inventory.stock_qty, or Appointment.status above. Anything
+# *derived* from them (FacilityScore, alerts) still only ever gets written by
+# the Event Engine / Pulse AI services, per ADR-003.
+# ---------------------------------------------------------------------------
+
+
+class DoctorAttendance(Base):
+    """
+    Module 1 — Doctor Attendance. One row per doctor per day.
+    Chain: Attendance Recorded -> Attendance Event -> Facility Score Recomputed.
+    """
+    __tablename__ = "doctor_attendance"
+
+    id = Column(Integer, primary_key=True)
+    doctor_id = Column(Integer, ForeignKey("doctors.id"), nullable=False)
+    date = Column(String, nullable=False)  # "YYYY-MM-DD", one row per doctor per day
+    status = Column(String, nullable=False)  # "present" | "absent"
+    check_in_time = Column(DateTime, nullable=True)
+
+
+class Bed(Base):
+    """
+    Module 2 — Bed Management. One row per facility.
+    available = total - occupied - reserved (always derived at read time,
+    never stored, so it can never drift out of sync).
+    """
+    __tablename__ = "beds"
+
+    id = Column(Integer, primary_key=True)
+    facility_id = Column(Integer, ForeignKey("phcs.id"), nullable=False, unique=True)
+    total = Column(Integer, default=0)
+    occupied = Column(Integer, default=0)
+    reserved = Column(Integer, default=0)
+
+
+class FacilityTest(Base):
+    """
+    Module 4 — Test Availability. One row per facility per test.
+    """
+    __tablename__ = "facility_tests"
+
+    id = Column(Integer, primary_key=True)
+    facility_id = Column(Integer, ForeignKey("phcs.id"), nullable=False)
+    test_name = Column(String, nullable=False)
+    available = Column(Integer, default=1)  # 0/1 -- SQLite has no native bool constraint story here
+    last_updated = Column(DateTime, default=datetime.utcnow)
