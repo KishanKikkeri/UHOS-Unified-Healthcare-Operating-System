@@ -16,14 +16,15 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from app.db.database import SessionLocal, Base, engine
 from app.models.models import (
     PHC, Doctor, Patient, Medicine, Inventory, Prescription,
-    PrescriptionItem, DispensingEvent, DoctorAttendance, Bed, FacilityTest
+    PrescriptionItem, DispensingEvent, DoctorAttendance, Bed, FacilityTest,
+    FacilityService, BedUnit, Referral
 )
 
 Base.metadata.create_all(bind=engine)
 db = SessionLocal()
 
 # Wipe existing data for a clean reseed
-for model in [DispensingEvent, PrescriptionItem, Prescription, Inventory,
+for model in [Referral, BedUnit, FacilityService, DispensingEvent, PrescriptionItem, Prescription, Inventory,
               DoctorAttendance, Bed, FacilityTest,
               Doctor, Patient, Medicine, PHC]:
     db.query(model).delete()
@@ -33,7 +34,10 @@ db.commit()
 phc_a = PHC(name="PHC Nanjangud Road", district="Mysuru", type="PHC", lat=12.2600, lng=76.6500)
 phc_b = PHC(name="CHC Hebbal", district="Mysuru", type="CHC", lat=12.3400, lng=76.6200)
 phc_c = PHC(name="PHC Bogadi", district="Mysuru", type="PHC", lat=12.3100, lng=76.5800)
-db.add_all([phc_a, phc_b, phc_c])
+# Phase X: a District Hospital so the Smart Referral Engine has a real
+# "next level of care" destination with MRI/ICU/etc, per the handover doc.
+district_hospital = PHC(name="Mysuru District Hospital", district="Mysuru", type="District Hospital", lat=12.2958, lng=76.6394)
+db.add_all([phc_a, phc_b, phc_c, district_hospital])
 db.commit()
 
 # --- Doctors ---
@@ -160,5 +164,50 @@ for phc_id, tests in test_plan.items():
 db.commit()
 
 print("Phase 5 seed complete: appointments, doctor attendance, beds, and test availability seeded.")
+
+# --- Phase X, Module 2: Facility Services Directory. District Hospital
+# gets the full advanced catalog; PHC A deliberately has no MRI so the
+# Smart Referral demo has a real gap to fill. ---
+service_plan = {
+    phc_a.id: [("General OPD", "Consultation"), ("Vaccination", "Preventive"), ("Blood Sugar", "Diagnostic"), ("BP", "Diagnostic"), ("ECG", "Diagnostic")],
+    phc_b.id: [("Emergency", "Critical Care"), ("Ultrasound", "Diagnostic"), ("X-Ray", "Diagnostic"), ("Lab", "Diagnostic"), ("Minor Surgery", "Surgical")],
+    phc_c.id: [("General OPD", "Consultation"), ("Vaccination", "Preventive"), ("BP", "Diagnostic")],
+    district_hospital.id: [("MRI", "Diagnostic"), ("CT Scan", "Diagnostic"), ("ICU", "Critical Care"), ("Blood Bank", "Critical Care"), ("Cardiology", "Specialist"), ("Neurology", "Specialist")],
+}
+for phc_id, svc_list in service_plan.items():
+    for service_name, category in svc_list:
+        db.add(FacilityService(facility_id=phc_id, service_name=service_name, category=category, available=1))
+db.commit()
+
+# --- Phase X, Module 3/4: individually addressable beds across wards.
+# District Hospital has a free ICU + General bed so the referral demo
+# resolves to "Recommended Facility: District Hospital ... available bed". ---
+bed_unit_plan = {
+    phc_a.id: [("A1", "General Ward"), ("A2", "General Ward"), ("A3", "General Ward")],
+    phc_b.id: [("B1", "General Ward"), ("B2", "Emergency"), ("B3", "Emergency")],
+    phc_c.id: [("C1", "General Ward"), ("C2", "General Ward")],
+    district_hospital.id: [
+        ("G-10", "General Ward"), ("G-11", "General Ward"), ("G-12", "General Ward"),
+        ("ICU-1", "ICU"), ("ICU-2", "ICU"),
+        ("M-1", "Maternity"), ("M-2", "Maternity"),
+    ],
+}
+bed_units_by_key = {}
+for phc_id, units in bed_unit_plan.items():
+    for bed_number, ward in units:
+        bed = BedUnit(facility_id=phc_id, bed_number=bed_number, ward=ward, bed_type="General", status="available")
+        db.add(bed)
+        db.flush()
+        bed_units_by_key[(phc_id, bed_number)] = bed
+db.commit()
+
+# Occupy/reserve a few so the Ward-wise Bed Status card shows a realistic mix.
+bed_units_by_key[(district_hospital.id, "G-10")].status = "occupied"
+bed_units_by_key[(district_hospital.id, "ICU-1")].status = "occupied"
+bed_units_by_key[(phc_a.id, "A1")].status = "occupied"
+db.commit()
+
+print("Phase X seed complete: District Hospital, facility services directory, and ward-wise bed units seeded.")
+print(f"District Hospital id={district_hospital.id}")
 
 db.close()

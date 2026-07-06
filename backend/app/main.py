@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import Base, engine
-from app.api import routes_prescriptions, routes_dashboard, routes_patients, routes_ws, routes_operations
+from app.api import routes_prescriptions, routes_dashboard, routes_patients, routes_ws, routes_operations, routes_referral
 
 # ADR-004: create_all instead of Alembic migrations for the hackathon build.
 Base.metadata.create_all(bind=engine)
@@ -24,6 +24,7 @@ app.include_router(routes_dashboard.router)
 app.include_router(routes_patients.router)
 app.include_router(routes_ws.router)
 app.include_router(routes_operations.router)
+app.include_router(routes_referral.router)
 
 
 @app.get("/")

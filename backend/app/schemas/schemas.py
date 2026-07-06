@@ -59,3 +59,39 @@ class FacilityScoreOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# --- Phase X: Smart Referral & Advanced Bed Management ----------------------
+
+class ReferralRecommendIn(BaseModel):
+    source_facility_id: int
+    service_name: str
+
+
+class ReferralCreate(BaseModel):
+    patient_id: int
+    doctor_id: int
+    source_facility_id: int
+    service_name: str
+
+
+class BedReserveIn(BaseModel):
+    patient_id: int
+    doctor_id: int
+    referral_id: Optional[int] = None
+
+
+class BedTransferIn(BaseModel):
+    to_bed_id: int
+
+
+class FacilityServiceUpsertIn(BaseModel):
+    service_name: str
+    category: Optional[str] = None
+    available: bool = True
+
+
+class BedUnitCreate(BaseModel):
+    bed_number: str
+    ward: str
+    bed_type: str = "General"

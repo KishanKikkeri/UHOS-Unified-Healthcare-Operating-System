@@ -154,3 +154,62 @@ def on_test_availability_changed(db: Session, phc_id: int, test_name: str, avail
             {"phc_id": phc_id, "test_name": test_name},
             alert,
         )
+
+
+# ---------------------------------------------------------------------------
+# Phase X — Smart Referral & Advanced Bed Management
+#
+# Same pattern as Phase 5 above: the route/service writes the raw referral
+# or bed-unit row first, then hands off here to log the Event Engine entry.
+# No new derived tables are touched by these -- Referral and BedUnit rows
+# are themselves raw state (same class as Bed / FacilityTest), so nothing
+# here recomputes FacilityScore or any other derived table.
+# ---------------------------------------------------------------------------
+
+
+def on_referral_created(db: Session, referral, recommendation: dict = None):
+    """
+    Doctor creates referral -> Pulse AI searches facilities -> Referral
+    generated -> Citizen App / District Dashboard / Timeline updated
+    (Phase X design principle chain, made real).
+    """
+    record_event(db, "service_referral_created", {
+        "referral_id": referral.id,
+        "patient_id": referral.patient_id,
+        "doctor_id": referral.doctor_id,
+        "source_facility_id": referral.source_facility_id,
+        "destination_facility_id": referral.destination_facility_id,
+        "service_name": referral.service_name,
+        "status": referral.status,
+    })
+
+
+def on_bed_reserved(db: Session, bed: dict, referral_id: int = None):
+    record_event(db, "bed_reserved", {
+        "bed_id": bed["id"],
+        "facility_id": bed["facility_id"],
+        "ward": bed["ward"],
+        "bed_number": bed["bed_number"],
+        "assigned_patient_id": bed["assigned_patient_id"],
+        "assigned_doctor_id": bed["assigned_doctor_id"],
+        "referral_id": referral_id,
+    })
+
+
+def on_bed_released(db: Session, bed: dict):
+    record_event(db, "bed_released", {
+        "bed_id": bed["id"],
+        "facility_id": bed["facility_id"],
+        "ward": bed["ward"],
+        "bed_number": bed["bed_number"],
+    })
+
+
+def on_bed_transferred(db: Session, from_bed: dict, to_bed: dict):
+    record_event(db, "bed_transferred", {
+        "from_bed_id": from_bed["id"],
+        "to_bed_id": to_bed["id"],
+        "facility_id": to_bed["facility_id"],
+        "assigned_patient_id": to_bed["assigned_patient_id"],
+        "assigned_doctor_id": to_bed["assigned_doctor_id"],
+    })

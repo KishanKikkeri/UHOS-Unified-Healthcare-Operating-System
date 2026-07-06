@@ -57,3 +57,34 @@ def test_test_unavailable_emits_event(client, seeded_db):
     )
     types = _event_types(client)
     assert "test_availability_changed" in types
+
+
+def test_referral_created_emits_event(client, seeded_db):
+    client.put(f"/facilities/{seeded_db['phc_b'].id}/services", json={"service_name": "MRI", "available": True})
+    client.post(f"/facilities/{seeded_db['phc_b'].id}/beds/units", json={"bed_number": "E-1", "ward": "General Ward"})
+    client.post(
+        "/referrals",
+        json={
+            "patient_id": seeded_db["patient"].id,
+            "doctor_id": seeded_db["doc_a"].id,
+            "source_facility_id": seeded_db["phc_a"].id,
+            "service_name": "MRI",
+        },
+    )
+    types = _event_types(client)
+    assert "service_referral_created" in types
+
+
+def test_bed_reserved_and_released_emit_events(client, seeded_db):
+    bed = client.post(
+        f"/facilities/{seeded_db['phc_a'].id}/beds/units",
+        json={"bed_number": "E-2", "ward": "General Ward"},
+    ).json()
+    client.put(
+        f"/beds/{bed['id']}/reserve",
+        json={"patient_id": seeded_db["patient"].id, "doctor_id": seeded_db["doc_a"].id},
+    )
+    client.put(f"/beds/{bed['id']}/release")
+    types = _event_types(client)
+    assert "bed_reserved" in types
+    assert "bed_released" in types
