@@ -34,6 +34,8 @@ describe("Dashboard page", () => {
       "/district/beds": { total: 10, occupied: 2, reserved: 0, available: 8, occupancy_pct: 20, facilities: [] },
       "/district/footfall": { facility_id: null, today_patients: 5, weekly_total: 30, peak_hour: null, expected_tomorrow: 5, calculation: "", facilities: [] },
       "/district/tests": { availability_pct: 100, facilities: [] },
+      "/district/wards": { facilities: [] },
+      "/district/referrals": { today_total: 0, today_successful: 0, today_pending: 0, today_emergency: 0, top_requested_service: null },
       "/medicines": [{ id: 1, name: "Paracetamol", unit: "tablets" }],
       "/events/recent": [],
     });

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LayoutGrid, FileText, Activity, Files, HeartPulse } from "lucide-react";
+import { LayoutGrid, FileText, Activity, Files, HeartPulse, Route } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import PatientPicker from "@/components/doctor/PatientPicker";
@@ -9,6 +9,7 @@ import DashboardTab from "@/components/citizen/DashboardTab";
 import PrescriptionsTab from "@/components/citizen/PrescriptionsTab";
 import HistoryTab from "@/components/citizen/HistoryTab";
 import ReportsTab from "@/components/citizen/ReportsTab";
+import ReferralsTab from "@/components/citizen/ReferralsTab";
 import { getPatientHistory, ApiError } from "@/lib/api";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Patient, PatientHistory, CitizenTab } from "@/lib/types";
@@ -27,6 +28,7 @@ export default function CitizenAppPage() {
     { key: "prescriptions", label: t("citizenApp.tabs.prescriptions"), icon: FileText },
     { key: "history", label: t("citizenApp.tabs.history"), icon: Activity },
     { key: "reports", label: t("citizenApp.tabs.reports"), icon: Files },
+    { key: "referrals", label: "My Referrals", icon: Route },
   ];
 
   useEffect(() => {
@@ -116,6 +118,7 @@ export default function CitizenAppPage() {
                     {tab === "prescriptions" && <PrescriptionsTab history={history} />}
                     {tab === "history" && <HistoryTab history={history} />}
                     {tab === "reports" && <ReportsTab />}
+                    {tab === "referrals" && <ReferralsTab patient={patient} />}
                   </>
                 )}
               </>

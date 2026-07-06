@@ -20,6 +20,7 @@ Phase 6  ✅ Multilingual (EN/HI/KN/GU) + full smoke test suite
 Phase 7  ✅ Demo polish
 Phase 8  ✅ Deployment prep — see docs/architecture/DEPLOYMENT.md
 Phase 9  🔄 Presentation & judge prep — see docs/presentation/, docs/diagrams/
+Phase X  ✅ Smart Referral & Advanced Bed Management — see PHASE_REFERRAL_HANDOVER.md
 ```
 
 ## Features

@@ -13,6 +13,8 @@ import DoctorAttendanceCard from "@/components/operations/DoctorAttendanceCard";
 import BedManagementCard from "@/components/operations/BedManagementCard";
 import PatientFootfallCard from "@/components/operations/PatientFootfallCard";
 import TestAvailabilityCard from "@/components/operations/TestAvailabilityCard";
+import WardBedStatusCard from "@/components/operations/WardBedStatusCard";
+import ReferralAnalyticsCard from "@/components/operations/ReferralAnalyticsCard";
 import {
   getDistrictAlerts,
   getDistrictFacilities,
@@ -23,6 +25,8 @@ import {
   getDistrictBeds,
   getDistrictFootfall,
   getDistrictTests,
+  getDistrictWards,
+  getDistrictReferralAnalytics,
 } from "@/lib/api";
 import { connectDashboardSocket } from "@/lib/ws";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -36,6 +40,8 @@ import type {
   DistrictBeds,
   DistrictFootfall,
   DistrictTests,
+  DistrictWardSummary,
+  DistrictReferralAnalytics,
 } from "@/lib/types";
 
 const POLL_INTERVAL_MS = 8000;
@@ -62,16 +68,22 @@ export default function DashboardPage() {
   const [footfall, setFootfall] = useState<DistrictFootfall | null>(null);
   const [tests, setTests] = useState<DistrictTests | null>(null);
 
+  // Phase X — Smart Referral & Advanced Bed Management: same polling pattern.
+  const [wards, setWards] = useState<DistrictWardSummary | null>(null);
+  const [referralAnalytics, setReferralAnalytics] = useState<DistrictReferralAnalytics | null>(null);
+
   // Alerts + Facility Scores stay on normal REST polling per the review note.
   const refresh = useCallback(async () => {
     try {
-      const [a, f, att, b, ff, tst] = await Promise.all([
+      const [a, f, att, b, ff, tst, wd, ra] = await Promise.all([
         getDistrictAlerts(),
         getDistrictFacilities(),
         getDistrictAttendance(),
         getDistrictBeds(),
         getDistrictFootfall(),
         getDistrictTests(),
+        getDistrictWards(),
+        getDistrictReferralAnalytics(),
       ]);
       setAlerts(a);
       setFacilities(f);
@@ -79,6 +91,8 @@ export default function DashboardPage() {
       setBeds(b);
       setFootfall(ff);
       setTests(tst);
+      setWards(wd);
+      setReferralAnalytics(ra);
     } catch {
       // alert/facility polling failure doesn't affect the live indicator —
       // that's owned by the WebSocket now.
@@ -234,6 +248,8 @@ export default function DashboardPage() {
                 <BedManagementCard data={beds} facilityName={facilityName} />
                 <PatientFootfallCard data={footfall} />
                 <TestAvailabilityCard data={tests} facilityName={facilityName} />
+                <WardBedStatusCard data={wards} facilityName={facilityName} />
+                <ReferralAnalyticsCard data={referralAnalytics} />
               </div>
             </section>
           </div>

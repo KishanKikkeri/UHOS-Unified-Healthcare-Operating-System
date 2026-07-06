@@ -155,7 +155,113 @@ export interface PatientHistory {
   appointments: HistoryAppointment[];
 }
 
-export type CitizenTab = "dashboard" | "prescriptions" | "history" | "reports";
+export type CitizenTab = "dashboard" | "prescriptions" | "history" | "reports" | "referrals";
+
+/**
+ * Phase X (Smart Referral & Advanced Bed Management) types. These mirror
+ * `routes_referral.py` exactly -- same rule as above, the frontend only
+ * renders what the backend returns.
+ */
+
+export interface FacilityServiceItem {
+  id: number;
+  service_name: string;
+  category: string | null;
+  available: boolean;
+}
+
+export interface FacilityServices {
+  facility_id: number;
+  services: FacilityServiceItem[];
+}
+
+export interface ServiceSearchResult {
+  facility_id: number;
+  facility_name: string;
+  facility_type: string;
+  lat: number;
+  lng: number;
+  service_name: string;
+  category: string | null;
+}
+
+export interface ReferralRecommendation {
+  recommended_facility_id: number | null;
+  recommended_facility_name?: string;
+  service_name: string;
+  distance_km?: number;
+  available_beds?: number;
+  facility_load_pct?: number;
+  reasoning: string;
+  alternatives?: {
+    facility_id: number;
+    facility_name: string;
+    distance_km: number;
+    available_beds: number;
+    facility_load_pct: number;
+  }[];
+}
+
+export type ReferralStatus = "pending" | "confirmed" | "completed" | "cancelled";
+
+export interface Referral {
+  id: number;
+  patient_id: number;
+  doctor_id: number;
+  source_facility_id: number;
+  destination_facility_id: number | null;
+  service_name: string;
+  distance_km: number | null;
+  status: ReferralStatus;
+  bed_unit_id: number | null;
+  reasoning: string | null;
+  created_at: string;
+}
+
+export interface PatientReferral extends Referral {
+  destination_facility_name: string | null;
+  assigned_bed_number: string | null;
+}
+
+export type BedUnitStatus = "available" | "reserved" | "occupied" | "cleaning" | "maintenance";
+
+export interface BedUnit {
+  id: number;
+  facility_id: number;
+  bed_number: string;
+  ward: string;
+  bed_type: string;
+  status: BedUnitStatus;
+  assigned_patient_id: number | null;
+  assigned_doctor_id: number | null;
+  updated_at: string;
+}
+
+export interface WardSummary {
+  ward: string;
+  total: number;
+  available: number;
+  reserved: number;
+  occupied: number;
+  other: number;
+}
+
+export interface FacilityWardSummary {
+  facility_id: number;
+  wards: WardSummary[];
+}
+
+export interface DistrictWardSummary {
+  facilities: FacilityWardSummary[];
+}
+
+export interface DistrictReferralAnalytics {
+  today_total: number;
+  today_successful: number;
+  today_pending: number;
+  today_emergency: number;
+  top_requested_service: string | null;
+}
 
 /**
  * Phase 5 (Healthcare Operations Extensions) types. These mirror

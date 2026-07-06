@@ -12,6 +12,7 @@ import PrescriptionItemsForm, {
 } from "@/components/doctor/PrescriptionItemsForm";
 import OutcomeCard from "@/components/doctor/OutcomeCard";
 import OutcomeWhyDrawer from "@/components/doctor/OutcomeWhyDrawer";
+import ReferralPanel from "@/components/doctor/ReferralPanel";
 import { createPrescription, ApiError } from "@/lib/api";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Doctor, Patient, PrescriptionResult, ItemOutcome } from "@/lib/types";
@@ -144,6 +145,8 @@ export default function DoctorWorkspacePage() {
                 </button>
               </div>
             )}
+
+            {doctor && <ReferralPanel doctor={doctor} patient={patient} />}
           </div>
         </main>
       </div>
