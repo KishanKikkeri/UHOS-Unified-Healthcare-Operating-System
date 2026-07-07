@@ -45,6 +45,19 @@ def run_seed():
         print(result.stderr, file=sys.stderr)
         sys.exit(result.returncode)
 
+    # Phase 11 — Authentication & RBAC: seed demo login accounts after the
+    # core dataset exists, so doctor/patient logins can link to real rows.
+    auth_result = subprocess.run(
+        [sys.executable, "-m", "seed.seed_auth"],
+        cwd=BACKEND_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    print(auth_result.stdout)
+    if auth_result.returncode != 0:
+        print(auth_result.stderr, file=sys.stderr)
+        sys.exit(auth_result.returncode)
+
 
 CHEAT_SHEET = """
 ================================================================

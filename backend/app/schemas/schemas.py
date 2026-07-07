@@ -46,6 +46,12 @@ class StockAlertOut(BaseModel):
     recommended_source_phc_id: Optional[int]
     reasoning: Optional[str]
     status: str
+    # Phase 10A addition (frontend-required, read-only): the Alerts page
+    # needs a timestamp per alert. `created_at` already exists on the
+    # StockAlert model and was already used to order queries in
+    # routes_dashboard.py -- this just exposes the same existing column,
+    # no schema/DB change and no new logic.
+    created_at: datetime
 
     class Config:
         from_attributes = True

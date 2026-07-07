@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import Base, engine
-from app.api import routes_prescriptions, routes_dashboard, routes_patients, routes_ws, routes_operations, routes_referral
+from app.api import routes_prescriptions, routes_dashboard, routes_patients, routes_ws, routes_operations, routes_referral, routes_auth
+# Phase 11: import the User model so Base.metadata.create_all below picks
+# up the new `users` table too -- models.py's models are already
+# registered on Base via their own module import chain.
+from app.models import user as _user_model  # noqa: F401
 
 # ADR-004: create_all instead of Alembic migrations for the hackathon build.
 Base.metadata.create_all(bind=engine)
@@ -25,6 +29,7 @@ app.include_router(routes_patients.router)
 app.include_router(routes_ws.router)
 app.include_router(routes_operations.router)
 app.include_router(routes_referral.router)
+app.include_router(routes_auth.router)
 
 
 @app.get("/")
