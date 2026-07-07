@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import DoctorWorkspacePage from "@/app/doctor/page";
-import { renderWithProviders, mockFetchRoutes } from "./test-utils";
+import { renderWithProviders, mockFetchRoutes, TEST_USERS } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/doctor",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 describe("Doctor Workspace", () => {
@@ -28,12 +29,14 @@ describe("Doctor Workspace", () => {
           },
         ],
       },
-    });
+    }, TEST_USERS.doctor);
   });
 
   it("renders the doctor and patient pickers", async () => {
     renderWithProviders(<DoctorWorkspacePage />);
-    expect(screen.getByText("New Prescription")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("New Prescription")).toBeInTheDocument();
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/Select a doctor/i)).toBeInTheDocument();
@@ -43,7 +46,7 @@ describe("Doctor Workspace", () => {
   it("submits a prescription and shows the outcome", async () => {
     renderWithProviders(<DoctorWorkspacePage />);
 
-    await waitFor(() => screen.getByText(/Select a doctor/i));
+    await waitFor(() => screen.getByText(/Dr\. Rao/));
 
     const doctorSelect = screen.getByText(/Select a doctor/i).closest("select")!;
     fireEvent.change(doctorSelect, { target: { value: "1" } });

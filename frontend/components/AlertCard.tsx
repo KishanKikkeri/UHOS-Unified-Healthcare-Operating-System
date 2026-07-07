@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, relativeTime } from "@/lib/utils";
 import type { StockAlert } from "@/lib/types";
 
 interface AlertCardProps {
@@ -10,6 +10,8 @@ interface AlertCardProps {
   facilityName: string;
   sourceFacilityName: string | null;
   onWhy: (alertId: number) => void;
+  /** Phase 10A addition (optional, additive): shown on the Alerts page only — the District Command Center card stays unchanged when this is omitted. */
+  timestamp?: string;
 }
 
 /**
@@ -42,6 +44,7 @@ export default function AlertCard({
   facilityName,
   sourceFacilityName,
   onWhy,
+  timestamp,
 }: AlertCardProps) {
   const severity = severityOf(alert.days_remaining);
   const style = SEVERITY_STYLES[severity];
@@ -66,7 +69,12 @@ export default function AlertCard({
             <p className="text-sm font-semibold text-ink">
               {medicineName} running low
             </p>
-            <p className="mt-0.5 text-xs text-ink-muted">{facilityName}</p>
+            <p className="mt-0.5 text-xs text-ink-muted">
+              {facilityName}
+              {timestamp && (
+                <span className="text-ink-faint"> · {relativeTime(timestamp)}</span>
+              )}
+            </p>
           </div>
         </div>
 

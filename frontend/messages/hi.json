@@ -20,7 +20,9 @@
     "facilities": "सुविधाएं",
     "alerts": "अलर्ट",
     "patients": "मरीज़",
-    "analytics": "विश्लेषण"
+    "analytics": "विश्लेषण",
+    "operations": "संचालन",
+    "inventory": "इन्वेंटरी"
   },
   "language": {
     "label": "भाषा",
@@ -99,5 +101,30 @@
     "selectedFacility": "चयनित सुविधा",
     "reason": "कारण",
     "loading": "स्पष्टीकरण लोड हो रहा है…"
+  },
+  "login": {
+    "title": "UHOS में साइन इन करें",
+    "subtitle": "अपने वर्कस्पेस तक पहुंचने के लिए अपनी जानकारी दर्ज करें।",
+    "username": "उपयोगकर्ता नाम",
+    "password": "पासवर्ड",
+    "rememberMe": "मुझे याद रखें",
+    "showPassword": "पासवर्ड दिखाएं",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "forgotPasswordDisabledHint": "इस डेमो के लिए अक्षम",
+    "loginButton": "लॉगिन",
+    "loggingIn": "साइन इन हो रहा है…",
+    "invalidCredentials": "उपयोगकर्ता नाम या पासवर्ड गलत है।",
+    "backToHome": "← होम पर वापस जाएं"
+  },
+  "topbar": {
+    "logout": "लॉगआउट",
+    "role": "भूमिका",
+    "facility": "सुविधा"
+  },
+  "operationsPage": {
+    "title": "संचालन"
+  },
+  "inventoryPage": {
+    "title": "इन्वेंटरी"
   }
 }

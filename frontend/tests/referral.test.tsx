@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import DoctorWorkspacePage from "@/app/doctor/page";
-import { renderWithProviders, mockFetchRoutes } from "./test-utils";
+import { renderWithProviders, mockFetchRoutes, TEST_USERS } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/doctor",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 describe("Doctor Workspace — Smart Referral panel", () => {
@@ -44,13 +45,17 @@ describe("Doctor Workspace — Smart Referral panel", () => {
         },
         recommendation: null,
       },
-    });
+    }, TEST_USERS.doctor);
   });
 
   it("finds a recommended facility and creates a referral", async () => {
     renderWithProviders(<DoctorWorkspacePage />);
 
-    await waitFor(() => screen.getByText(/Select a doctor/i));
+    // Wait for the actual doctor option to appear, not just the static
+    // placeholder -- the placeholder renders before DoctorPicker's own
+    // GET /doctors call resolves, so selecting too early would fire the
+    // change event against an empty options list.
+    await waitFor(() => screen.getByText(/Dr\. Rao/));
     const doctorSelect = screen.getByText(/Select a doctor/i).closest("select")!;
     fireEvent.change(doctorSelect, { target: { value: "1" } });
 

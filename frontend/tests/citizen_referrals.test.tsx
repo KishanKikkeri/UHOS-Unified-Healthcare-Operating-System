@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import CitizenAppPage from "@/app/citizen/page";
-import { renderWithProviders, mockFetchRoutes } from "./test-utils";
+import { renderWithProviders, mockFetchRoutes, TEST_USERS } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/citizen",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 describe("Citizen App — My Referrals tab", () => {
@@ -33,13 +34,13 @@ describe("Citizen App — My Referrals tab", () => {
           assigned_bed_number: "G-12",
         },
       ],
-    });
+    }, TEST_USERS.citizen);
   });
 
   it("shows the citizen's referral with destination, status, and reserved bed", async () => {
     renderWithProviders(<CitizenAppPage />);
 
-    const input = screen.getByPlaceholderText(/Search patient/i);
+    const input = await waitFor(() => screen.getByPlaceholderText(/Search patient/i));
     fireEvent.change(input, { target: { value: "Asha" } });
     await waitFor(() => screen.getByText("Asha Patel"));
     fireEvent.click(screen.getByText("Asha Patel"));

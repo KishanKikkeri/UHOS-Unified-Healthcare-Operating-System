@@ -14,8 +14,9 @@ import { getPatientHistory, ApiError } from "@/lib/api";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Patient, PatientHistory, CitizenTab } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import AuthGuard from "@/components/AuthGuard";
 
-export default function CitizenAppPage() {
+function CitizenAppPageContent() {
   const { t } = useLanguage();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [history, setHistory] = useState<PatientHistory | null>(null);
@@ -127,5 +128,14 @@ export default function CitizenAppPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+
+export default function CitizenAppPage() {
+  return (
+    <AuthGuard allowedRoles={["citizen"]}>
+      <CitizenAppPageContent />
+    </AuthGuard>
   );
 }

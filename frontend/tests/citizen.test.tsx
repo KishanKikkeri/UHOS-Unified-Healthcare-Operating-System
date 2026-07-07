@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import CitizenAppPage from "@/app/citizen/page";
-import { renderWithProviders, mockFetchRoutes } from "./test-utils";
+import { renderWithProviders, mockFetchRoutes, TEST_USERS } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
   usePathname: () => "/citizen",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 describe("Citizen App", () => {
@@ -16,18 +17,20 @@ describe("Citizen App", () => {
         prescriptions: [],
         appointments: [],
       },
-    });
+    }, TEST_USERS.citizen);
   });
 
-  it("prompts for a patient before showing tabs", () => {
+  it("prompts for a patient before showing tabs", async () => {
     renderWithProviders(<CitizenAppPage />);
-    expect(screen.getByText(/Select a patient/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Select a patient/i)).toBeInTheDocument();
+    });
   });
 
   it("shows the timeline tabs once a patient is selected", async () => {
     renderWithProviders(<CitizenAppPage />);
 
-    const input = screen.getByPlaceholderText(/Search patient/i);
+    const input = await waitFor(() => screen.getByPlaceholderText(/Search patient/i));
     fireEvent.change(input, { target: { value: "Asha" } });
     await waitFor(() => screen.getByText("Asha Patel"));
     fireEvent.click(screen.getByText("Asha Patel"));

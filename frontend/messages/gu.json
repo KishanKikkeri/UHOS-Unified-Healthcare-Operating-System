@@ -20,7 +20,9 @@
     "facilities": "સુવિધાઓ",
     "alerts": "ચેતવણીઓ",
     "patients": "દર્દીઓ",
-    "analytics": "વિશ્લેષણ"
+    "analytics": "વિશ્લેષણ",
+    "operations": "કામગીરી",
+    "inventory": "ઇન્વેન્ટરી"
   },
   "language": {
     "label": "ભાષા",
@@ -99,5 +101,30 @@
     "selectedFacility": "પસંદ કરેલ સુવિધા",
     "reason": "કારણ",
     "loading": "સમજૂતી લોડ થઈ રહી છે…"
+  },
+  "login": {
+    "title": "UHOS માં સાઇન ઇન કરો",
+    "subtitle": "તમારા વર્કસ્પેસ ઍક્સેસ કરવા માટે તમારી માહિતી દાખલ કરો.",
+    "username": "વપરાશકર્તા નામ",
+    "password": "પાસવર્ડ",
+    "rememberMe": "મને યાદ રાખો",
+    "showPassword": "પાસવર્ડ બતાવો",
+    "forgotPassword": "પાસવર્ડ ભૂલી ગયા?",
+    "forgotPasswordDisabledHint": "આ ડેમો માટે અક્ષમ",
+    "loginButton": "લૉગિન",
+    "loggingIn": "સાઇન ઇન થઈ રહ્યું છે…",
+    "invalidCredentials": "વપરાશકર્તા નામ અથવા પાસવર્ડ ખોટો છે.",
+    "backToHome": "← હોમ પર પાછા જાઓ"
+  },
+  "topbar": {
+    "logout": "લૉગઆઉટ",
+    "role": "ભૂમિકા",
+    "facility": "સુવિધા"
+  },
+  "operationsPage": {
+    "title": "કામગીરી"
+  },
+  "inventoryPage": {
+    "title": "ઇન્વેન્ટરી"
   }
 }

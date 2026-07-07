@@ -20,7 +20,9 @@
     "facilities": "ಸೌಲಭ್ಯಗಳು",
     "alerts": "ಎಚ್ಚರಿಕೆಗಳು",
     "patients": "ರೋಗಿಗಳು",
-    "analytics": "ವಿಶ್ಲೇಷಣೆ"
+    "analytics": "ವಿಶ್ಲೇಷಣೆ",
+    "operations": "ಕಾರ್ಯಾಚರಣೆಗಳು",
+    "inventory": "ದಾಸ್ತಾನು"
   },
   "language": {
     "label": "ಭಾಷೆ",
@@ -99,5 +101,30 @@
     "selectedFacility": "ಆಯ್ಕೆಮಾಡಿದ ಸೌಲಭ್ಯ",
     "reason": "ಕಾರಣ",
     "loading": "ವಿವರಣೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ…"
+  },
+  "login": {
+    "title": "UHOS ಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ",
+    "subtitle": "ನಿಮ್ಮ ಕಾರ್ಯಕ್ಷೇತ್ರವನ್ನು ಪ್ರವೇಶಿಸಲು ರುಜುವಾತುಗಳನ್ನು ನಮೂದಿಸಿ.",
+    "username": "ಬಳಕೆದಾರ ಹೆಸರು",
+    "password": "ಪಾಸ್‌ವರ್ಡ್",
+    "rememberMe": "ನನ್ನನ್ನು ನೆನಪಿಡಿ",
+    "showPassword": "ಪಾಸ್‌ವರ್ಡ್ ತೋರಿಸಿ",
+    "forgotPassword": "ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿರಾ?",
+    "forgotPasswordDisabledHint": "ಈ ಡೆಮೊಗಾಗಿ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ",
+    "loginButton": "ಲಾಗಿನ್",
+    "loggingIn": "ಸೈನ್ ಇನ್ ಆಗುತ್ತಿದೆ…",
+    "invalidCredentials": "ಬಳಕೆದಾರ ಹೆಸರು ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ತಪ್ಪಾಗಿದೆ.",
+    "backToHome": "← ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ"
+  },
+  "topbar": {
+    "logout": "ಲಾಗ್ ಔಟ್",
+    "role": "ಪಾತ್ರ",
+    "facility": "ಸೌಲಭ್ಯ"
+  },
+  "operationsPage": {
+    "title": "ಕಾರ್ಯಾಚರಣೆಗಳು"
+  },
+  "inventoryPage": {
+    "title": "ದಾಸ್ತಾನು"
   }
 }

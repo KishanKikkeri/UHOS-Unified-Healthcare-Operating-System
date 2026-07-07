@@ -14,6 +14,8 @@ export interface StockAlert {
   recommended_source_phc_id: number | null;
   reasoning: string | null;
   status: "open" | "resolved";
+  /** Phase 10A addition: mirrors the StockAlert model's existing `created_at` column. */
+  created_at: string;
 }
 
 export interface FacilitySummary {
@@ -353,4 +355,28 @@ export interface FacilityTests {
 export interface DistrictTests {
   availability_pct: number;
   facilities: FacilityTests[];
+}
+
+// ---------------------------------------------------------------------------
+// Phase 11 — Authentication & RBAC. Mirrors backend/app/schemas/auth.py.
+// ---------------------------------------------------------------------------
+
+import type { Role } from "./rbac";
+
+export interface AuthUser {
+  id: number;
+  username: string;
+  full_name: string;
+  role: Role;
+  facility_id: number | null;
+  facility_name: string | null;
+  doctor_id: number | null;
+  patient_id: number | null;
+}
+
+export interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  user: AuthUser;
 }

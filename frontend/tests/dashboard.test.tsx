@@ -1,11 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
-import DashboardPage from "@/app/page";
+import DashboardPage from "@/app/dashboard/page";
 import { renderWithProviders } from "./test-utils";
 import { mockFetchRoutes } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/",
+  usePathname: () => "/dashboard",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 vi.mock("@/lib/ws", () => ({
@@ -44,7 +45,11 @@ describe("Dashboard page", () => {
   it("renders stat cards and the critical alert once data loads", async () => {
     renderWithProviders(<DashboardPage />);
 
-    expect(screen.getByText("Critical Alerts")).toBeInTheDocument();
+    // Phase 11: AuthGuard resolves the session asynchronously, so content
+    // now appears one tick after render rather than synchronously.
+    await waitFor(() => {
+      expect(screen.getByText("Critical Alerts")).toBeInTheDocument();
+    });
 
     await waitFor(() => {
       expect(screen.getAllByText("PHC Alpha").length).toBeGreaterThan(0);

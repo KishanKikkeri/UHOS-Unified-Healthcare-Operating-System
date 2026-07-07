@@ -16,8 +16,9 @@ import ReferralPanel from "@/components/doctor/ReferralPanel";
 import { createPrescription, ApiError } from "@/lib/api";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import type { Doctor, Patient, PrescriptionResult, ItemOutcome } from "@/lib/types";
+import AuthGuard from "@/components/AuthGuard";
 
-export default function DoctorWorkspacePage() {
+function DoctorWorkspacePageContent() {
   const { t } = useLanguage();
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -153,5 +154,14 @@ export default function DoctorWorkspacePage() {
 
       <OutcomeWhyDrawer outcome={whyOutcome} onClose={() => setWhyOutcome(null)} />
     </div>
+  );
+}
+
+
+export default function DoctorWorkspacePage() {
+  return (
+    <AuthGuard allowedRoles={["doctor"]}>
+      <DoctorWorkspacePageContent />
+    </AuthGuard>
   );
 }

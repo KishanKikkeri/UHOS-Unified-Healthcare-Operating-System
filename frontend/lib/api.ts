@@ -22,6 +22,8 @@ import type {
   FacilityWardSummary,
   DistrictWardSummary,
   DistrictReferralAnalytics,
+  AuthUser,
+  TokenResponse,
 } from "./types";
 
 const API_BASE =
@@ -33,9 +35,33 @@ class ApiError extends Error {
   }
 }
 
+// Phase 11 — Authentication. Token lives in localStorage under this key;
+// read fresh on every request rather than cached in a module variable, so
+// a login/logout in another tab is picked up on the next call.
+const TOKEN_STORAGE_KEY = "uhos.auth.token";
+
+export function getStoredToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(TOKEN_STORAGE_KEY);
+}
+
+export function setStoredToken(token: string | null) {
+  if (typeof window === "undefined") return;
+  if (token) {
+    window.localStorage.setItem(TOKEN_STORAGE_KEY, token);
+  } else {
+    window.localStorage.removeItem(TOKEN_STORAGE_KEY);
+  }
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getStoredToken();
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { Accept: "application/json", ...(init?.headers ?? {}) },
+    headers: {
+      Accept: "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers ?? {}),
+    },
     cache: "no-store",
     ...init,
   });
@@ -51,6 +77,22 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
   return res.json() as Promise<T>;
 }
+
+/**
+ * Phase 11 — Authentication. Every existing function below this point is
+ * untouched; `request()` now transparently attaches a bearer token when
+ * one is present, so none of them needed to change to start sending auth.
+ */
+export const login = (username: string, password: string) =>
+  request<TokenResponse>("/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+export const logout = () => request<{ detail: string }>("/auth/logout", { method: "POST" });
+
+export const getCurrentUser = () => request<AuthUser>("/auth/me");
 
 /** All open alerts across every PHC/CHC — feeds Critical Alerts. */
 export const getDistrictAlerts = () => request<StockAlert[]>("/district/alerts");
@@ -77,7 +119,8 @@ export const getPatients = (search?: string) =>
   );
 
 /** Doctor picker for the Doctor Workspace (no auth system in this build). */
-export const getDoctors = () => request<Doctor[]>("/doctors");
+export const getDoctors = (phcId?: number) =>
+  request<Doctor[]>(`/doctors${phcId != null ? `?phc_id=${phcId}` : ""}`);
 
 /**
  * Hero Flow 1: submit a prescription. The response already carries the

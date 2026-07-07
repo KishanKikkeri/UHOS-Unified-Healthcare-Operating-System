@@ -1,13 +1,12 @@
-import { describe, it, expect } from "vitest";
-import { screen, fireEvent, render } from "@testing-library/react";
-import { vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
+import { screen, fireEvent, render, waitFor } from "@testing-library/react";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
-import { LanguageProvider } from "@/lib/i18n/LanguageContext";
-import { renderWithProviders } from "./test-utils";
+import { renderWithProviders, withProviders, mockFetchRoutes, TEST_USERS } from "./test-utils";
 
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/",
+  usePathname: () => "/dashboard",
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn(), back: vi.fn() }),
 }));
 
 function Shell() {
@@ -20,10 +19,13 @@ function Shell() {
 }
 
 describe("Language switching", () => {
-  it("updates the UI instantly when a new language is selected", () => {
+  it("updates the UI instantly when a new language is selected", async () => {
+    mockFetchRoutes({}, TEST_USERS.district_admin);
     renderWithProviders(<Shell />);
 
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
+    // Phase 11: Sidebar only renders its items once AuthProvider resolves
+    // the (mocked) session, one tick after the initial render.
+    await waitFor(() => expect(screen.getByText("Dashboard")).toBeInTheDocument());
 
     const select = screen.getByLabelText("Language") as HTMLSelectElement;
     fireEvent.change(select, { target: { value: "hi" } });
@@ -33,22 +35,17 @@ describe("Language switching", () => {
     expect(screen.queryByText("Dashboard")).not.toBeInTheDocument();
   });
 
-  it("preserves the selection across a re-render (state, not remount)", () => {
-    const { rerender } = render(
-      <LanguageProvider>
-        <Shell />
-      </LanguageProvider>
-    );
+  it("preserves the selection across a re-render (state, not remount)", async () => {
+    mockFetchRoutes({}, TEST_USERS.district_admin);
+    const { rerender } = render(withProviders(<Shell />));
+
+    await waitFor(() => expect(screen.getByLabelText("Language")).toBeInTheDocument());
 
     const select = screen.getByLabelText("Language") as HTMLSelectElement;
     fireEvent.change(select, { target: { value: "kn" } });
-    expect(screen.getByText("ಡ್ಯಾಶ್‌ಬೋರ್ಡ್")).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText("ಡ್ಯಾಶ್‌ಬೋರ್ಡ್")).toBeInTheDocument());
 
-    rerender(
-      <LanguageProvider>
-        <Shell />
-      </LanguageProvider>
-    );
+    rerender(withProviders(<Shell />));
     expect(screen.getByText("ಡ್ಯಾಶ್‌ಬೋರ್ಡ್")).toBeInTheDocument();
   });
 });

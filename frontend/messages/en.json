@@ -20,7 +20,9 @@
     "facilities": "Facilities",
     "alerts": "Alerts",
     "patients": "Patients",
-    "analytics": "Analytics"
+    "analytics": "Analytics",
+    "operations": "Operations",
+    "inventory": "Inventory"
   },
   "language": {
     "label": "Language",
@@ -99,5 +101,43 @@
     "selectedFacility": "Selected Facility",
     "reason": "Reason",
     "loading": "Loading explanation…"
+  },
+  "facilitiesPage": {
+    "title": "Facilities"
+  },
+  "alertsPage": {
+    "title": "Alerts"
+  },
+  "patientsPage": {
+    "title": "Patients",
+    "selectPrompt": "Search for a patient to view their facility, referral status, prescriptions, and visit timeline."
+  },
+  "analyticsPage": {
+    "title": "Analytics"
+  },
+  "login": {
+    "title": "Sign in to UHOS",
+    "subtitle": "Enter your credentials to access your workspace.",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "showPassword": "Show password",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordDisabledHint": "Disabled for this demo",
+    "loginButton": "Login",
+    "loggingIn": "Signing in…",
+    "invalidCredentials": "Incorrect username or password.",
+    "backToHome": "← Back to home"
+  },
+  "topbar": {
+    "logout": "Logout",
+    "role": "Role",
+    "facility": "Facility"
+  },
+  "operationsPage": {
+    "title": "Operations"
+  },
+  "inventoryPage": {
+    "title": "Inventory"
   }
 }
