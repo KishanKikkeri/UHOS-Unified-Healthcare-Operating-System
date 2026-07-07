@@ -15,10 +15,7 @@
 ![WebSockets](https://img.shields.io/badge/Realtime-WebSockets-4B32C3)
 ![Multilingual](https://img.shields.io/badge/Languages-EN%20%7C%20HI%20%7C%20KN%20%7C%20GU-D85A30)
 ![AI](https://img.shields.io/badge/AI-Deterministic%20%26%20Explainable-1D9E75)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-![Backend CI](https://img.shields.io/badge/backend%20CI-not%20configured-lightgrey)
-![Frontend CI](https://img.shields.io/badge/frontend%20CI-not%20configured-lightgrey)
 
 </div>
 
@@ -30,22 +27,6 @@ domain action (a prescription, a dispensing decision, a referral, a bed
 reservation) is recorded once, and the dashboard, the doctor workspace,
 and the citizen app all update from that single source of truth in
 real time.
-
----
-
-## 📸 Project Banner
-
-> Screenshots below are placeholders — capture these from a running
-> instance (`npm run dev` + `uvicorn app.main:app --reload`) before
-> publishing.
-
-| District Dashboard | Doctor Workspace |
-|---|---|
-| ![District Dashboard](docs/screenshots/dashboard.png) | ![Doctor Workspace](docs/screenshots/doctor-workspace.png) |
-
-| Citizen App | Live Event Timeline |
-|---|---|
-| ![Citizen App](docs/screenshots/citizen-app.png) | ![Live Event Timeline](docs/screenshots/event-timeline.png) |
 
 ---
 
