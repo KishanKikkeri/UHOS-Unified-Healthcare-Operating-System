@@ -343,6 +343,11 @@ cd backend
 python -m seed.demo_seed
 ```
 
+`http://localhost:3000` now opens the public landing page; sign in at
+`/login` with any account from **[PHASE11_AUTH_HANDOVER.md](PHASE11_AUTH_HANDOVER.md)**'s
+demo account table to reach the District Command Center or another role's
+workspace.
+
 ### Or with Docker Compose (Postgres included)
 
 ```bash
