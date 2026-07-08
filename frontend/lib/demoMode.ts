@@ -7,10 +7,15 @@ import type { Role } from "./rbac";
  * is a plain constant (not a function) -- consistent with how
  * `NEXT_PUBLIC_API_BASE_URL` is read directly in lib/api.ts. Independent
  * of the backend's own `DEMO_MODE` flag: this one only controls what the
- * UI *offers* (role cards vs. a plain Login button); the backend's flag
- * is what actually allows POST /auth/demo-login to succeed.
+ * UI *offers* (role cards) vs. hiding them; the backend's flag is what
+ * actually allows POST /auth/demo-login to succeed.
+ *
+ * Defaults to ON: this is a hackathon/judging build, and requiring an
+ * env var just to see the demo cards was exactly the kind of friction
+ * Demo Mode exists to remove. Set NEXT_PUBLIC_DEMO_MODE=false explicitly
+ * to require real username/password login instead.
  */
-export const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+export const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE !== "false";
 
 interface DemoRoleMeta {
   role: Role;

@@ -81,12 +81,12 @@ def test_demo_login_disabled_when_demo_mode_off(client, db_session, monkeypatch)
     assert res.status_code == 403
 
 
-def test_demo_login_default_is_disabled_without_env_var(client, db_session, monkeypatch):
+def test_demo_login_default_is_enabled_without_env_var(client, db_session, monkeypatch):
     monkeypatch.delenv("DEMO_MODE", raising=False)
     seed_demo_user(db_session, DEMO_ROLE_USERNAME["doctor"], "doctor")
 
     res = client.post("/auth/demo-login", json={"role": "doctor"})
-    assert res.status_code == 403
+    assert res.status_code == 200
 
 
 def test_demo_status_endpoint_reflects_env_var(client, monkeypatch):

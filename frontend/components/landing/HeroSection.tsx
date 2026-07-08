@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Github, PlayCircle, HeartPulse, Sparkles } from "lucide-react";
+import { Github, PlayCircle, HeartPulse, Sparkles } from "lucide-react";
 import NetworkIllustration from "./NetworkIllustration";
 import { DEMO_MODE } from "@/lib/demoMode";
 
@@ -39,20 +39,13 @@ export default function HeroSection() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            {DEMO_MODE ? (
+            {DEMO_MODE && (
               <a
                 href="#select-role"
                 className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-base transition-transform hover:scale-[1.02] hover:brightness-110"
               >
                 <Sparkles className="h-4 w-4" strokeWidth={2} /> Select Your Role
               </a>
-            ) : (
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-base transition-transform hover:scale-[1.02] hover:brightness-110"
-              >
-                Login <ArrowRight className="h-4 w-4" strokeWidth={2} />
-              </Link>
             )}
             <Link
               href="/dashboard"
@@ -60,14 +53,6 @@ export default function HeroSection() {
             >
               <PlayCircle className="h-4 w-4 text-accent" strokeWidth={1.75} /> View Demo
             </Link>
-            {DEMO_MODE && (
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 rounded-lg border border-transparent px-5 py-2.5 text-sm font-medium text-ink-muted transition-colors hover:text-ink"
-              >
-                Sign in with credentials
-              </Link>
-            )}
             <a
               href="https://github.com"
               target="_blank"

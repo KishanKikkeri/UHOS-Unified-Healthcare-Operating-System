@@ -14,7 +14,10 @@ from app.utils.rbac import ROLES
 
 
 def is_demo_mode_enabled() -> bool:
-    return os.getenv("DEMO_MODE", "false").strip().lower() in ("1", "true", "yes", "on")
+    # Defaults to ON (see lib/demoMode.ts's matching frontend default) --
+    # this is a hackathon/judging build; set DEMO_MODE=false explicitly
+    # to require real username/password login instead.
+    return os.getenv("DEMO_MODE", "true").strip().lower() in ("1", "true", "yes", "on")
 
 
 # Phase 12 handover doc's literal usernames (admin1, phcadmin1, doctor1,
