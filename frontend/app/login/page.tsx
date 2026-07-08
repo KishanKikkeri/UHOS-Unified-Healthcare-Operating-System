@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth/AuthContext";
 import { useLanguage, SUPPORTED_LANGUAGES, type SupportedLanguage } from "@/lib/i18n/LanguageContext";
 import { homeRouteFor } from "@/lib/rbac";
 import { ApiError } from "@/lib/api";
+import DemoModeBadge from "@/components/DemoModeBadge";
 
 const REMEMBER_KEY = "uhos.auth.rememberUsername";
 
@@ -64,7 +65,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
+    <div className="relative grid min-h-screen grid-cols-1 lg:grid-cols-2">
+      <DemoModeBadge floating />
       {/* Left — branding / illustration side */}
       <div className="relative hidden flex-col justify-between overflow-hidden border-r border-panel-border bg-panel px-12 py-12 lg:flex">
         <div

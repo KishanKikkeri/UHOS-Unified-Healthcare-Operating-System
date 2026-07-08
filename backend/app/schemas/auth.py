@@ -7,6 +7,11 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class DemoLoginRequest(BaseModel):
+    """Phase 12 — Demo Mode. Role-only login, no credentials."""
+    role: str
+
+
 class UserOut(BaseModel):
     id: int
     username: str

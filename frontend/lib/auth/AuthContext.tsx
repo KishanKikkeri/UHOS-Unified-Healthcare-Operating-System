@@ -22,18 +22,22 @@ import {
 import {
   login as apiLogin,
   logout as apiLogout,
+  demoLogin as apiDemoLogin,
   getCurrentUser,
   getStoredToken,
   setStoredToken,
   ApiError,
 } from "@/lib/api";
 import type { AuthUser } from "@/lib/types";
+import type { Role } from "@/lib/rbac";
 
 interface AuthContextValue {
   user: AuthUser | null;
   /** True until the initial "is there already a valid token?" check resolves. */
   loading: boolean;
   login: (username: string, password: string) => Promise<AuthUser>;
+  /** Phase 12 — Demo Mode: role-only login, no credentials. */
+  demoLogin: (role: Role) => Promise<AuthUser>;
   logout: () => Promise<void>;
 }
 
@@ -68,6 +72,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return res.user;
   }, []);
 
+  const demoLogin = useCallback(async (role: Role) => {
+    const res = await apiDemoLogin(role);
+    setStoredToken(res.access_token);
+    setUser(res.user);
+    return res.user;
+  }, []);
+
   const logout = useCallback(async () => {
     try {
       await apiLogout();
@@ -81,7 +92,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading, login, logout]);
+  const value = useMemo(
+    () => ({ user, loading, login, demoLogin, logout }),
+    [user, loading, login, demoLogin, logout]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

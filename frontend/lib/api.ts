@@ -94,6 +94,18 @@ export const logout = () => request<{ detail: string }>("/auth/logout", { method
 
 export const getCurrentUser = () => request<AuthUser>("/auth/me");
 
+/**
+ * Phase 12 — Demo Mode. Same TokenResponse shape as login() above, just a
+ * role instead of credentials -- see backend/app/api/routes_auth.py's
+ * POST /auth/demo-login.
+ */
+export const demoLogin = (role: string) =>
+  request<TokenResponse>("/auth/demo-login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ role }),
+  });
+
 /** All open alerts across every PHC/CHC — feeds Critical Alerts. */
 export const getDistrictAlerts = () => request<StockAlert[]>("/district/alerts");
 

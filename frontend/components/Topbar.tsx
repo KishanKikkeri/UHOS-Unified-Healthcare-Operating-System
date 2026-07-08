@@ -10,6 +10,7 @@ import {
 } from "@/lib/i18n/LanguageContext";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { ROLE_LABELS } from "@/lib/rbac";
+import DemoModeBadge from "./DemoModeBadge";
 
 interface TopbarProps {
   district: string;
@@ -96,6 +97,7 @@ export default function Topbar({
             </div>
           </>
         )}
+        <DemoModeBadge />
       </div>
     </header>
   );
